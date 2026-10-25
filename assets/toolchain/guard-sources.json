@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/Xahau/xahaud",
+  "revision": "5c05e107c0211dcedb7adcf73dab1f6012747fe7",
+  "path": "include/xrpl/hook",
+  "files": [
+    {
+      "file": "Enum.h",
+      "sha256": "3334e1059b08982525bb045cc1df481f014ed6f462122a46f2aa12ce725d7d68"
+    },
+    {
+      "file": "Guard.h",
+      "sha256": "72d8f1de963725f0c43e6821fb6abf732b0ba8e3a4abe56582780fd0aee17253"
+    },
+    {
+      "file": "guard_checker.cpp",
+      "sha256": "3fdf0538667ff9d9259ee01e19182ad38873a87ddc2a8db941125aaaffa9ae4b"
+    },
+    {
+      "file": "hook_api.macro",
+      "sha256": "190e6f0591fccae4afc8300f0e216c08c72b4a1a7964d3fca4cb6eb7d54f7edf"
+    }
+  ]
+}

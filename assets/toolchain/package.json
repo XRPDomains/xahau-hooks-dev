@@ -1,0 +1,7 @@
+{
+  "name": "xahau-hooks-dev-reference-toolchain",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "dependencies": {"@xahau/hooks-cli": "3.0.0", "hooks-compiler": "0.2.0"}
+}

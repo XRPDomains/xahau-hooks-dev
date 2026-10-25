@@ -20,4 +20,28 @@ Read installed configuration back from the ledger; verify effective namespaces, 
 
 Report source revision, toolchain/checker identity, artifact digests/sizes, network/account, install/bootstrap/smoke hashes, validated ledger indices, hook traces, state-preservation comparison, retries and outstanding gates. Explorer links are conveniences, not the only evidence. Use network-configured explorer bases; do not tell a mainnet operator to use a testnet faucet.
 
-No deployment helper is bundled: projects must supply their own reviewed SetHook/bootstrap/signing workflow. This avoids making a generic template silently replace a live chain or expose a signer.
+## Restricted beginner reference
+
+An optional [testnet reference](../assets/examples/deploy/README.md) now demonstrates first-install SetHook and the owner-setting example's self-Invoke. It is deliberately not a universal deployment client: no chain replacement, migration, arbitrary bootstrap or mainnet. Review it before use and follow [quickstart](../QUICKSTART.md). Existing applications still need a workflow appropriate to their full chain and state lifecycle.
+
+## Deliberate testnet removal and reset
+
+Cleanup is a separate authorized operation. Snapshot the installation and all affected namespaces first; use a disposable testnet account and inspect the exact slot being changed. The beginner signer refuses these operations, so the JSON below is a review template for a project-specific workflow, not a command it will execute.
+
+For removing slot zero while preserving its state, the relevant Hook entry is:
+
+```json
+{"Hook": {"CreateCode": "", "Flags": 1}}
+```
+
+`1` is the reviewed `hsfOVERRIDE` value. Empty CreateCode here means deletion, not an empty valid WASM module. For another slot, construct the preceding no-op entries and verify the target chain's limits; do not shift unrelated hooks accidentally.
+
+A separate namespace-reset entry is:
+
+```json
+{"Hook": {"HookNamespace": "REPLACE_WITH_EXACT_HEX64", "Flags": 2}}
+```
+
+`2` is `hsfNSDELETE`; omit CreateCode/HookHash and activation/API fields for this reset form. It can remove data used by multiple hooks sharing that namespace. It does not mean “clear only this hook's records.” Do not combine it with a routine upgrade.
+
+Current node rules can bound deletion and return `tesPARTIAL`; inspect remaining state before any subsequent authorized cleanup. Do not promise a single reset transaction removes an arbitrarily large namespace. Verify numerical constants and behavior against the target headers/source. See [SetHook operations](https://xahau.network/docs/protocol-reference/transactions/transaction-types/sethook/).

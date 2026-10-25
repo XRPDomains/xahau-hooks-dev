@@ -4,7 +4,7 @@
 
 Pin compiler, headers, optimizer, cleaner and checker revisions or immutable image digests. Retain commands, logs, source/dependency hashes, raw/optimized/final sizes and final artifact SHA-256. Verify the exact cleaned bytes later submitted, not an earlier object or probe build. Do not globally silence compiler warnings to conceal pointer/signature problems.
 
-Typical stages: compile -> link -> optimize -> clean -> WASM structural inspection -> production guard validation -> optional node validation -> behavioral probes/integration. Exact commands depend on the chosen toolchain; this release does not vendor a compiler image or headers.
+Typical stages: compile -> link -> optimize -> clean -> WASM structural inspection -> production guard validation -> optional node validation -> behavioral probes/integration. The [optional setup guide](toolchain-setup.md) provides a pinned npm compiler/header recipe, Dockerfile and checker source manifest; no third-party binary or header source is vendored.
 
 Use `inspect-artifact.mjs` with a reviewed policy. It reports structure and runs an optional external checker; it does not compute instruction counts, block depth or stack usage. Obtain those from a compatible disassembler/validator and preserve their raw output. The target's `hook_validate` endpoint, where available, is another validation layer, not a behavioral test.
 

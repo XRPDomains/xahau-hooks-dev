@@ -7,7 +7,8 @@ main(() => {
   const a=args(process.argv.slice(2),[],['--help']);
   if(a['--help'])return print({usage:'node validate-package.mjs',note:'Checks local Markdown links and JavaScript syntax. Does not replace skill frontmatter or behavioral validation.'});
   const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-  function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
+  const excluded=new Set(['.git','node_modules','build','dist','coverage','__pycache__']);
+  function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).filter(e=>!e.isSymbolicLink()&&!excluded.has(e.name)).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
   const files=walk(root),errors=[];let links=0,modules=0;
   for(const file of files) {
     if(file.endsWith('.md')) {

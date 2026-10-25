@@ -1,7 +1,7 @@
 import {integer, hex} from './lib.mjs';
-export async function snapshot(config, account, namespace) {
-  const url = new URL(config.endpoint);
-  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error('An explicit HTTP(S) endpoint without embedded credentials is required');
+export async function snapshot(config, account, namespace, request) {
+  const url = request?undefined:new URL(config.endpoint);
+  if (url && (!['http:', 'https:'].includes(url.protocol) || url.username || url.password)) throw new Error('An explicit HTTP(S) endpoint without embedded credentials is required');
   integer(config.networkId,0,0xFFFFFFFF,'networkId');
   const timeoutMs = integer(config.timeoutMs ?? 15000,100,60000,'timeoutMs');
   const maxPages = integer(config.maxPages ?? 100,1,10000,'maxPages');
@@ -10,10 +10,15 @@ export async function snapshot(config, account, namespace) {
   let count = 0;
   async function rpc(method, params = {}) {
     ++count;
-    const response = await fetch(url, {method:'POST', headers:{'content-type':'application/json'},
-      body:JSON.stringify({method,params:[params]}), signal:AbortSignal.timeout(timeoutMs)});
-    if (!response.ok) throw new Error(`RPC HTTP ${response.status} during ${method}`);
-    const body = await response.json(); const r = body.result;
+    let body;
+    if(request)body=await request(method,params);
+    else{
+      const response = await fetch(url, {method:'POST', headers:{'content-type':'application/json'},
+        body:JSON.stringify({method,params:[params]}), signal:AbortSignal.timeout(timeoutMs)});
+      if (!response.ok) throw new Error(`RPC HTTP ${response.status} during ${method}`);
+      body=await response.json();
+    }
+    const r = body.result;
     if (!r || r.error || r.status === 'error' || body.error) throw new Error(`RPC ${method}: ${r?.error ?? body.error?.code ?? 'invalid response'}`);
     return r;
   }

@@ -1,13 +1,15 @@
 # Small examples
 
-These are original teaching sources, not a deploy-ready application or a complete build toolchain. Bring headers and build/checker versions matching the target network. Do not add made-up API declarations to silence incompatible headers.
+These are original teaching sources, not a production application. The [optional reference toolchain](../../references/toolchain-setup.md) can now build them; still verify headers and checker versions against the target network. Do not add made-up API declarations to silence incompatible headers.
 
 | File | Purpose | Verification boundary |
 |---|---|---|
-| `minimal.c` | Entry guard and terminal accept | Source example; no bundled production WASM or live deployment evidence |
-| `owner-setting.c` | Self-authorized Invoke, exact binary parameter, checked state write | Source example; requires target build and runtime tests |
+| `minimal.c` | Entry guard and terminal accept | npm production build and guard-check passed; no live deployment evidence |
+| `owner-setting.c` | Self-authorized Invoke, exact binary parameter, checked state write | npm production build and guard-check passed; runtime/node integration remains required |
 | `safe-bytes.h` | Bounded hex/decimal parsing, BE encoding | Portable host tests; guard adapter/budgets must be integrated for production |
 | `safe-bytes.test.c` | Independent boundaries, malformed input and sentinel checks | Host-native execution when a C compiler is available |
+
+See [quickstart](../../QUICKSTART.md) for the complete testnet reference path and [optional transaction examples](deploy/README.md) for its deliberate restrictions.
 
 ## Host helper test
 

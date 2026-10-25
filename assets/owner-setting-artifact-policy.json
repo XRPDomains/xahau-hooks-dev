@@ -1,0 +1,7 @@
+{
+  "maxBytes": 16384,
+  "allowedImports": ["env._g:function", "env.accept:function", "env.rollback:function", "env.otxn_type:function", "env.hook_account:function", "env.otxn_field:function", "env.otxn_param:function", "env.state_set:function"],
+  "requiredImports": ["env._g:function", "env.accept:function", "env.rollback:function", "env.otxn_type:function", "env.hook_account:function", "env.otxn_field:function", "env.otxn_param:function", "env.state_set:function"],
+  "allowedExports": ["hook:function"],
+  "requiredExports": ["hook:function"]
+}

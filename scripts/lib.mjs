@@ -12,7 +12,7 @@ export function args(argv, valued = [], flags = []) {
   }
   return out;
 }
-export const jsonFile = p => JSON.parse(fs.readFileSync(p, 'utf8'));
+export const jsonFile = p => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/,''));
 export function required(value, label) {
   if (value === undefined || value === '') throw new Error(`Required: ${label}`);
   return value;

@@ -1,8 +1,10 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.0.0**.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.1.0**.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
+
+**New to Hooks? Start with [QUICKSTART.md](QUICKSTART.md)**: install the optional compiler, build and guard-check a small hook, prepare a testnet install, explicitly sign/submit, write a setting and read its state back. Optional examples are restricted to a fresh testnet installation; they never automatically deploy an existing project.
 
 ## Installation
 
@@ -138,41 +140,45 @@ These are prompts, not permissions granted by installing the skill. Adapt paths,
 9. [Testing/debugging](references/testing.md): probes, failure injection, troubleshooting.
 10. [Compatibility/sources](references/compatibility.md): authoritative references and version boundaries.
 
+First-run guides: [toolchain setup](references/toolchain-setup.md), [HookOn calculator](references/hookon.md), [funding/fees/reserve](references/funding-and-fees.md), [common errors](references/first-run-errors.md), and [testnet signing references](assets/examples/deploy/README.md).
+
 Beginners should start with C essentials, then [examples](assets/examples/README.md). References are loaded on demand rather than injected together.
 
 ## Bundled tools
 
-Requires Node.js **20+**. There are no third-party npm dependencies. Run commands from this skill directory or use absolute script paths.
+Requires Node.js **20+**. Core scripts have no third-party npm dependencies. The optional compiler and signing/WebSocket examples have their own exact dependency versions and locks; see [toolchain setup](references/toolchain-setup.md) and [the deployment reference](assets/examples/deploy/README.md). Run commands from this skill directory or use absolute script paths.
 
 ```sh
 node scripts/doctor.mjs
 node scripts/doctor.mjs --docker
+node scripts/doctor.mjs --docker --image xahau-hooks-dev-toolchain:1.1
+node scripts/hookon.mjs --types Payment,Invoke
 node scripts/init-project.mjs --out /new/project/path --name my-hook
 node scripts/inspect-artifact.mjs --wasm /path/to/final.wasm --policy assets/minimal-artifact-policy.json
 node scripts/inspect-artifact.mjs --wasm /path/to/final.wasm --policy /path/to/project-policy.json --guard /path/to/guard_checker
 node scripts/decode-state.mjs --layout assets/state-layout.example.json --hex 01000000000000002A
 node scripts/read-state.mjs --config /path/to/network.json --account rAddress --namespace HEX64 --out snapshot.json
 node scripts/summarize-tx.mjs --file /path/to/tx-response.json
-node --test tests/tools.test.mjs
+node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs
 node scripts/validate-package.mjs
 ```
 
 - Artifact inspection without a guard checker reports **NOT_RUN** for the guard stage. A structural PASS is not a deployment PASS. Without a policy it reports observations and exits 2.
 - Project initialization creates only a new source/documentation layout. Its parent must exist; an existing destination is refused. It does not install a toolchain, initialize Git or touch a network.
 - The sample artifact policy accepts only the minimal pass-through example. Derive other policies from reviewed source and the target API; do not expand the policy just to silence an unknown import/export.
-- `read-state` requires an explicit **HTTP(S)** JSON-RPC endpoint and expected network ID. It makes no WebSocket subscription, signs nothing, and reads no wallet configuration. Network ID must be returned by `server_info`; otherwise it fails closed. Use an endpoint with the required API rather than guessing the network.
+- `read-state` requires an explicit **HTTP(S)** JSON-RPC endpoint and expected network ID. The optional `assets/examples/deploy/read-state-websocket.mjs` supports WS(S) using the locked Xahau library. Both pin validated reads and check network identity; neither signs or subscribes. Use the appropriate transport rather than passing a WebSocket URL to the HTTP reader.
 - `summarize-tx` accepts a saved JSON `tx` response. `tesSUCCESS` alone does not prove the hook ran or that an emitted workflow completed.
-- Commands emit JSON, errors to stderr, and nonzero exit codes on failure. No helper retries transaction submissions; there is no submission helper in this release.
+- Commands emit JSON, errors to stderr, and nonzero exit codes on failure. The optional testnet submission reference requires `--submit`, a matching signer, explicit fee cap and new journal; no helper automatically resubmits a transaction. Network writes require authorization for the current task.
 
-The external guard checker must be executable in the same operating environment as Node. For a Linux checker on Windows, run Node and the inspection command inside WSL/Linux; the helper does not pass arbitrary shell commands. The success marker matches the reviewed checker family; a different checker output format needs an explicit reviewed adapter, not a false PASS. Import/export inspection checks names and kinds, not function signatures; the production validator remains required.
+The external guard checker must be executable in Node's operating environment, or use the explicit Windows `--wsl DISTRO` adapter for a Linux checker. No arbitrary shell commands are passed. The success marker matches the reviewed checker family; a different checker output format needs an explicit reviewed adapter, not a false PASS. Import/export inspection checks names and kinds, not function signatures; the production validator remains required.
 
-See [asset formats](assets/README.md) for configuration details. Tool tests use local fixtures and a mock HTTP server, never a live network.
+See [asset formats](assets/README.md) for configuration details. Tool tests use local fixtures and a mock HTTP server, never a live network. The optional codec/signer tests report SKIP when their npm dependencies are absent; install that directory's lock to exercise them.
 
 ## Evidence and compatibility
 
 Use [the report template](assets/report-template.md). Keep compilation, static guard validation, native tests, mocked probes, node validation, live transactions, and recovery tests separate. Unavailable tools or untested phases remain **NOT_RUN**, not PASS.
 
-This release's Node tools and portable C helper tests are locally verified; the bundled Hook entrypoints are **teaching source**, not prebuilt or independently network-certified contracts. No complete emitted-transaction serializer or callback implementation is shipped. Implement those only against the selected runtime contract and verify them on a suitable node.
+This release's core tools, portable C helpers and the optional npm builds of both small Hook examples are locally verified, including production guard validation. They remain teaching examples, not independently network-certified contracts. The optional signer was not exercised with live transactions; Docker and target-node validation are separate evidence stages. No complete emitted-transaction serializer or callback implementation is shipped.
 
 See [release verification](VERIFICATION.md) for the actual checks and untested stages of this release.
 

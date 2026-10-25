@@ -2,6 +2,8 @@
 
 `minimal-artifact-policy.json` is deliberately narrow: only the minimal pass-through Hook's imports/exports, with a conservative example byte budget. The budget is not a universal network limit. Add reviewed APIs only when the project uses them and the selected validator supports them. Policies require `maxBytes`, `allowedImports`, `requiredImports`, `allowedExports`, and `requiredExports`. Symbols include kind, e.g. `env.accept:function`.
 
+`owner-setting-artifact-policy.json` covers the separate owner-setting example. Optional build recipes are in [toolchain](../references/toolchain-setup.md); optional testnet signing/WebSocket examples are in [deploy](examples/deploy/README.md). They have independent exact npm locks and do not change the dependency-free core scripts.
+
 `state-layout.example.json` encodes a one-byte version followed by a BE uint64. The decoder supports fixed layouts with complete non-overlapping coverage, including explicit reserved bytes. A BE uint64 becomes a decimal string to avoid JavaScript precision loss. The decoder reports values; the caller must validate supported versions and business constraints.
 
 Create a network config outside the skill using this shape:

@@ -1,0 +1,7 @@
+{
+  "name": "xahau-hooks-dev-testnet-reference",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "dependencies": {"xahau": "4.2.0"}
+}

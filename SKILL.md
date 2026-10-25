@@ -2,7 +2,7 @@
 name: xahau-hooks-dev
 description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads and transaction-based writes. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Xahau Hooks development
@@ -22,6 +22,8 @@ Read only relevant references:
 | Task | Reference |
 |---|---|
 | New project, operations, authorization, state machine | [Architecture](references/architecture.md) |
+| First working build/install/write/readback | [Quickstart](QUICKSTART.md) |
+| Missing compiler/cleaner/checker; npm, Docker or WSL setup | [Toolchain setup](references/toolchain-setup.md) |
 | C beginner, pointer/length, overflow, byte handling | [C essentials](references/c-essentials.md) |
 | Hook API return values, invocation, accept/rollback, slots | [Runtime and API contracts](references/runtime.md) |
 | Compiler, guards, memory, block nesting, performance | [Build and resources](references/build.md) |
@@ -29,6 +31,9 @@ Read only relevant references:
 | Emission, callback, pending, failure and recovery | [Emit and recovery](references/emit.md) |
 | RPC reads, Invoke/Payment writes, result interpretation | [Read and write](references/read-write.md) |
 | SetHook, bootstrap, smoke, state-preserving upgrade | [Deployment](references/deployment.md) |
+| Activation masks and directional fields | [HookOn](references/hookon.md) |
+| Testnet funding, fee quotes, reserve, mainnet boundaries | [Funding and fees](references/funding-and-fees.md) |
+| First-run failure symptoms | [First-run errors](references/first-run-errors.md) |
 | Audit, regression, fault injection, error investigation | [Testing and debugging](references/testing.md) |
 
 For a beginner, start with C essentials and the minimal examples in [examples](assets/examples/README.md). Explain the relevant C concept alongside each fix; avoid an unrelated C course.
@@ -45,7 +50,7 @@ For a beginner, start with C essentials and the minimal examples in [examples](a
 
 ## Deterministic helpers
 
-Node.js 20+; no npm installation is needed for bundled scripts. Run each with `--help`.
+Node.js 20+; core scripts have no third-party dependencies. The optional compiler and signing/WebSocket references have separate pinned npm locks; install them only for those tasks. Run commands with `--help` after installing a reference's required dependencies.
 
 - `scripts/doctor.mjs`: report local runtimes; Docker daemon check only with `--docker`.
 - `scripts/init-project.mjs`: create a new project source layout from the teaching example and contract template; refuse an existing destination. Does not install tools or create a deployment.
@@ -53,6 +58,11 @@ Node.js 20+; no npm installation is needed for bundled scripts. Run each with `-
 - `scripts/decode-state.mjs`: validate a fixed binary layout and decode bytes/BE unsigned integers. Does not discover unknown state keys or verify project C layouts automatically.
 - `scripts/read-state.mjs`: read-only HTTP JSON-RPC; verify network ID, pin a validated ledger, paginate a namespace, reject repeated markers. Never signs or submits.
 - `scripts/summarize-tx.mjs`: summarize a saved `tx` response with validated status and HookExecutions. Does not infer completion of emitted workflows.
+- `scripts/hookon.mjs`: calculate masks with the active-high SetHook exception; validate directional field combinations for HookOnV2_1.
+- `scripts/setup-guard.mjs`: download/checksum pinned checker sources, then build using the existing C++ compiler or explicit WSL distribution.
+- `scripts/prepare-sethook.mjs` and `scripts/prepare-setting.mjs`: generate offline unsigned first-install/example-write transactions.
+
+For beginner builds use `assets/toolchain/compile.mjs` and [setup](references/toolchain-setup.md). Optional `assets/examples/deploy/` provides a restricted testnet signer and WebSocket state reader, not a project SDK. Its signing path refuses mainnet, existing-hook replacement, deletion flags and unrelated writes; it needs explicit submit authorization, fee cap and new journal. Never silently expand it to deploy an existing multi-hook application. Core read-only tools may read an explicitly configured mainnet; local doctor has no RPC target.
 
 Policy/layout examples are under [assets](assets/README.md). Require explicit project-specific values; the supplied artifact policy is only for the minimal pass-through example.
 
