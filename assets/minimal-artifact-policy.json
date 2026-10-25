@@ -1,0 +1,7 @@
+{
+  "maxBytes": 16384,
+  "allowedImports": ["env._g:function", "env.accept:function"],
+  "requiredImports": ["env._g:function", "env.accept:function"],
+  "allowedExports": ["hook:function"],
+  "requiredExports": ["hook:function"]
+}

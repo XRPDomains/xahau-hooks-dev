@@ -1,0 +1,7 @@
+{
+  "length": 9,
+  "fields": [
+    {"name": "version", "offset": 0, "type": "u8"},
+    {"name": "value", "offset": 1, "type": "u64be"}
+  ]
+}

@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+__pycache__/
+*.pyc
+*.log
+*.zip
+.env
+.env.*
+!.env.example
+*.seed
+*.pem
+.DS_Store
+Thumbs.db
