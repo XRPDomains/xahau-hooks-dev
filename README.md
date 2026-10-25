@@ -1,15 +1,26 @@
 # Xahau Hooks Development
 
-A reusable agent skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Version **1.0.0**.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.0.0**.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
 
 ## Installation
 
-Extract the archive and copy its `xahau-hooks-dev` directory into the skills directory supported by your agent. For Codex, the normal user location is:
+Clone this repository, download its source, or extract a release archive. Install the **whole skill folder**, named `xahau-hooks-dev`, at one of the locations below. Project paths are relative to the project where you want to use the skill; personal paths are relative to your home directory.
+
+| Agent | Project installation | Personal installation | Explicit invocation |
+|---|---|---|---|
+| Claude Code | `.claude/skills/xahau-hooks-dev/` | `~/.claude/skills/xahau-hooks-dev/` | `/xahau-hooks-dev` |
+| Cursor | `.cursor/skills/xahau-hooks-dev/` | `~/.cursor/skills/xahau-hooks-dev/` | Type `/` in Agent chat and select `xahau-hooks-dev` |
+| Codex | `.agents/skills/xahau-hooks-dev/` | `~/.agents/skills/xahau-hooks-dev/` | `$xahau-hooks-dev` |
+| Other agents | A readable local directory | A readable local directory | Use the direct-file prompt below |
+
+Choose one installation per agent/scope to avoid conflicting copies. Some existing Codex installations also use `~/.codex/skills/`; keep a working installation there if your host discovers it. Do not assume one agent reads another agent's directories.
+
+The installed structure should look like:
 
 ```text
-~/.codex/skills/xahau-hooks-dev/
+xahau-hooks-dev/
     SKILL.md
     README.md
     agents/
@@ -19,15 +30,26 @@ Extract the archive and copy its `xahau-hooks-dev` directory into the skills dir
     tests/
 ```
 
-On Windows this is normally `%USERPROFILE%\.codex\skills\xahau-hooks-dev`. If `CODEX_HOME` is customized, use its `skills` directory. Refresh/restart the agent session if it does not discover the new skill. Other agents can read `SKILL.md` directly; discovery mechanisms and metadata support vary by host.
+On Windows, `~` normally corresponds to `%USERPROFILE%`; for example, Claude Code's personal installation is `%USERPROFILE%\.claude\skills\xahau-hooks-dev`. Refresh/restart the agent session if the skill does not appear. Check your host's current documentation for custom directories, managed installations, or remote environments.
+
+For example, to install directly from GitHub for Claude Code on macOS/Linux:
+
+```sh
+mkdir -p ~/.claude/skills
+git clone https://github.com/XRPDomains/xahau-hooks-dev.git ~/.claude/skills/xahau-hooks-dev
+```
+
+For Cursor or Codex, use the corresponding destination from the table. Run this only when the destination does not exist. Review and pin a trusted revision when reproducibility matters; cloning the default branch is not a version pin.
+
+Installation paths and invocation are documented by [Claude Code](https://code.claude.com/docs/en/skills), [Cursor](https://cursor.com/docs/skills), and [Codex](https://learn.chatgpt.com/docs/build-skills). These are installation instructions, not a claim that this release has been behaviorally tested in all three agents.
 
 The skill is portable: it contains no project addresses, seeds, RPC presets, private environment files, or dependencies on a particular repository. Keep the `references`, `assets`, and `scripts` directories alongside `SKILL.md` when moving it.
 
 ## Agent discovery and invocation
 
-`SKILL.md` contains the machine-readable name and description. `agents/openai.yaml` provides Codex display metadata and a default prompt. Automatic discovery is enabled, but it does not authorize deploying or spending funds.
+`SKILL.md` is the shared entrypoint: its name and description help compatible hosts select the skill, and its body routes the agent to relevant references. `agents/openai.yaml` is optional Codex-specific metadata; other hosts do not need it to follow the shared instructions. Discovery and permission behavior remain controlled by each host.
 
-Invoke explicitly with `$xahau-hooks-dev`. For a host without skill discovery, use:
+Use your agent's invocation from the table, followed by the task. The task prompts below deliberately avoid host-specific command syntax. For an agent without native skill discovery, start with this direct-file prompt:
 
 ```text
 Read /path/to/xahau-hooks-dev/SKILL.md and follow it for the task below.
@@ -37,10 +59,22 @@ Task: ...
 Permitted changes and network actions: ...
 ```
 
+Replace the paths and task fields before sending. The agent must be able to read the skill and project directories. Running the bundled tools requires a terminal with Node.js 20+; compiling and deploying Hooks requires the project's separate toolchain and network access. A chat-only agent can discuss the instructions but cannot verify local builds or submit transactions without those capabilities.
+
+For repeated use, add a short pointer to the project's supported instruction file, such as `CLAUDE.md`, `AGENTS.md`, or a Cursor project rule:
+
+```text
+For Xahau C/WASM Hook tasks, read /path/to/xahau-hooks-dev/SKILL.md first.
+Load only the references needed for the task. Follow this project's protocol
+and respect the network actions explicitly authorized for the current task.
+```
+
+Installing or invoking the skill does not authorize deployment, signing, or spending funds. Xahau blockchain Hooks in this package are unrelated to agent lifecycle hooks provided by coding tools.
+
 ### Create a hook
 
 ```text
-Use $xahau-hooks-dev to create a minimal owner-controlled settings hook.
+Use the xahau-hooks-dev skill to create a minimal owner-controlled settings hook.
 Project: /path/to/project. Target: my configured Xahau test network.
 I am new to C: explain buffer lengths and API return checks beside the code.
 Define operations, state layout, errors and invariants first; implement and test.
@@ -51,7 +85,7 @@ Do not deploy or submit transactions. Report unverified assumptions explicitly.
 ### Review and fix
 
 ```text
-Use $xahau-hooks-dev to review hook/ against protocol/.
+Use the xahau-hooks-dev skill to review hook/ against protocol/.
 Focus on authorization, pointer/length safety, guard budgets, state cleanup,
 weak execution, pending/refund recovery, and production-WASM behavior.
 Reproduce each actionable finding before fixing it where feasible.
@@ -62,7 +96,7 @@ Report severity, trigger, impact, location, evidence and remaining gaps.
 ### Investigate a build failure
 
 ```text
-Use $xahau-hooks-dev to diagnose the guard-check failure in this build log.
+Use the xahau-hooks-dev skill to diagnose the guard-check failure in this build log.
 Inspect the exact cleaned artifact and pinned compiler/checker versions.
 Do not weaken validation, arbitrarily raise guards, or assume exported helpers
 are accepted by production. Propose or implement the smallest verified fix.
@@ -71,7 +105,7 @@ are accepted by production. Propose or implement the smallest verified fix.
 ### Read and write a hook
 
 ```text
-Use $xahau-hooks-dev to document and demonstrate direct RPC reads and writes
+Use the xahau-hooks-dev skill to document and demonstrate direct RPC reads and writes
 for the operations defined in this project's protocol. Show key derivation,
 byte decoding, Invoke or Payment fields, and transaction result interpretation.
 Use my explicit endpoint/network configuration. Prepare unsigned writes only.
@@ -81,7 +115,7 @@ Do not create an SDK or indexer and do not sign or submit transactions.
 ### Deploy or upgrade
 
 ```text
-Use $xahau-hooks-dev to deploy the reviewed artifact to the test network
+Use the xahau-hooks-dev skill to deploy the reviewed artifact to the test network
 specified in config, using the signer already configured for this task.
 Verify network identity, artifact/checker evidence, hook configuration and fees.
 Preserve existing state. Submit once, verify installed hashes, run the documented
