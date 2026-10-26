@@ -1,5 +1,7 @@
 # Testing, audit and debugging
 
+Use the [offline framework](offline-framework.md) for shared WASM fixtures, schema/client vectors and guard observations. The [auto-forward probe](auto-forward.md) adds an explicitly started disposable standalone node test for real emission/callback/recovery. Default regression tests do not start a node, download one, or submit to a public ledger.
+
 ## Evidence levels
 
 For an initial source pass, run `node scripts/lint-source.mjs --source hook/src/hook.c`. JSON findings include file, line and rule. Exit codes: `0` = no heuristic findings, `1` = review findings, `2` = invalid input. It reports obvious discarded Hook API calls, direct unsigned declaration/cast of API results, and loops lacking a recognized `_g`, `GUARD` or `XH_GUARD` in their header/first body statement.
@@ -40,6 +42,8 @@ Fault-inject every significant state/emit boundary. Check terminal rollback beha
 Each finding includes severity, location, concrete trigger, expected/actual behavior, impact, reproduction level, fix and regression. Separate confirmed defects from questions and documented limitations. Close a finding with evidence, not a comment saying it was fixed. A request to review is not blanket permission to redesign roles or deploy.
 
 ## Diagnose by stage
+
+CLI integration tests allow 60 seconds per child process, including Node/dependency startup, to accommodate slow VMs and loaded CI hosts. This is a timeout ceiling, not a fixed delay or an automatic retry. Intentional short request-timeout tests and WASM execution limits remain separate; increasing the CLI ceiling does not change runtime or submission timeouts. A killed process or `status=null` requires checking the spawn error/signal before diagnosing a protocol defect.
 
 | Symptom | First evidence to collect |
 |---|---|

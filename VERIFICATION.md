@@ -1,6 +1,17 @@
-# Verification: 1.3.0
+# Verification: 1.5.0
 
 Date: 2026-10-26. These are package verification results, not a live deployment certification. Historical 1.1.0 evidence is retained below with its original scope.
+
+## 1.5.0 combined framework work and test robustness
+
+- The combined 1.4/1.5 feature work passed **68/68 Node tests, zero skips**. Package metadata identifies this combined release as 1.5.0; 1.4.0 was not published separately. See [offline framework](references/offline-framework.md) and [auto-forward](references/auto-forward.md) for commands and boundaries.
+- Production contact-book WASM is 762 bytes, SHA-256 `c2afadd11f7bcecf2c7088c89bf88a4844e00f87b9460a5f86ca2257e8e8b465`, checker total 1781. Auto-forward WASM is 2209 bytes, SHA-256 `c556dd67da3a945d533563dc9e6557520ec8907c4a2848f48b4c3cd5fd2eea0c`, checker totals 11090 (hook) and 1008 (callback). Both original artifacts passed their exact import/export policies and the pinned checker through WSL.
+- A disposable native standalone node verified emitted Payment success, validated `tecDST_TAG_NEEDED`, correlated callback state changes, and bounded owner retry after clearing the destination requirement. [Saved evidence](assets/auto-forward-evidence.json) identifies the binary/revision and artifact. Native expiry, native weak callback state-write faults and public-network deployment remain **NOT_RUN**; corresponding offline branches do not establish native semantics.
+- Following reported VM startup timeouts, the remaining 5/10/20-second CLI subprocess ceilings were raised to 60 seconds. The two affected test files passed **8/8 tests, zero skips** after that change. Request-timeout tests, worker execution bounds and production submission logic were not changed. Package syntax/local links and whitespace checks passed.
+
+## Independent 1.3.0 feedback relayed by the user
+
+The user supplied an agent's report of Claude end-to-end use, 56/56 passing tests in a clean container, and independently rebuilt issuer artifacts with matching SHA-256 and guard PASS. This is user-relayed external evidence, not a second run performed by this package's author; raw evaluator logs and transaction hashes were not supplied here. The evaluator attributed earlier VM-only subprocess failures to timeouts; the robustness change above addresses that reported symptom. Independent Cursor evaluation remains **NOT_RUN**. The historical independent-evaluation row below describes the original 1.1.0 baseline only.
 
 ## 1.3.0 agent workflow fixes — 2026-10-26
 

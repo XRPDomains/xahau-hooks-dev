@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "name": "contact_book",
+  "version": "1.0.0",
+  "operations": {
+    "set": {"route": "self", "discriminator": {"name": "op", "valueHex": "01"}, "params": [{"name": "name", "type": "string", "minBytes": 1, "maxBytes": 28, "noNul": true}, {"name": "addr", "type": "account20"}]}
+  },
+  "state": {
+    "contact": {"key": {"kind": "prefix-text", "prefixHex": "43544354", "field": "name", "maxBytes": 28}, "fields": [{"name": "version", "type": "uint8", "const": 1}, {"name": "account", "type": "account20"}]}
+  }
+}

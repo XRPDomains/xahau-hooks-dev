@@ -1,0 +1,92 @@
+{
+  "cases": [
+    {
+      "name": "set alice",
+      "fixture": {
+        "hookAccount": "B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+        "fields": {
+          "524289": "B5F762798A53D543A014CAF8B297CFF8F2F937E8"
+        },
+        "parameters": [
+          {
+            "name": "6F70",
+            "value": "01"
+          },
+          {
+            "name": "6E616D65",
+            "value": "616C696365"
+          },
+          {
+            "name": "61646472",
+            "value": "B5F762798A53D543A014CAF8B297CFF8F2F937E8"
+          }
+        ]
+      },
+      "expect": {
+        "outcome": "accept",
+        "committed": true
+      }
+    },
+    {
+      "name": "wrong owner",
+      "fixture": {
+        "hookAccount": "B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+        "fields": {
+          "524289": "1111111111111111111111111111111111111111"
+        },
+        "parameters": [
+          {
+            "name": "6F70",
+            "value": "01"
+          },
+          {
+            "name": "6E616D65",
+            "value": "616C696365"
+          },
+          {
+            "name": "61646472",
+            "value": "B5F762798A53D543A014CAF8B297CFF8F2F937E8"
+          }
+        ]
+      },
+      "expect": {
+        "outcome": "rollback",
+        "committed": false,
+        "code": "00000000000003ea"
+      }
+    },
+    {
+      "name": "state write fails",
+      "fixture": {
+        "hookAccount": "B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+        "fields": {
+          "524289": "B5F762798A53D543A014CAF8B297CFF8F2F937E8"
+        },
+        "parameters": [
+          {
+            "name": "6F70",
+            "value": "01"
+          },
+          {
+            "name": "6E616D65",
+            "value": "616C696365"
+          },
+          {
+            "name": "61646472",
+            "value": "B5F762798A53D543A014CAF8B297CFF8F2F937E8"
+          }
+        ],
+        "faults": {
+          "state_set": {
+            "code": -4
+          }
+        }
+      },
+      "expect": {
+        "outcome": "rollback",
+        "committed": false,
+        "code": "00000000000003ee"
+      }
+    }
+  ]
+}

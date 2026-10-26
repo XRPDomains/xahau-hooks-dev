@@ -10,6 +10,8 @@ These are original teaching sources, not a production application. The [optional
 | `safe-bytes.test.c` | Independent boundaries, malformed input and sentinel checks | Host-native execution when a C compiler is available |
 | `uritoken-issuer.c` | Issuer-originating mint URI and flag policy | npm build/production guard-check; mocked host policy tests; live install/mint NOT_RUN |
 | `issued-token-issuer.c` | Outgoing TST asset identity and per-Payment XFL limit | npm build/production guard-check; mocked host policy tests; live issuance/transfer NOT_RUN |
+| `contact-book.c` | Owner-only contact records matching the interface schema | Production build/guard-check; shared WASM mock with generated codec readback |
+| `auto-forward.c` | 5% native Payment emission, correlated callback and bounded retry | Production build/guard-check; standalone node success, child failure and owner recovery; native expiry/write fault NOT_RUN |
 | `variable-state.h`, `variable-state.mjs`, `variable-state.test.c` | Variable-length byte codec and key derivation | Native/JS fixture tests; not a guarded production Hook helper |
 
 See [quickstart](../../QUICKSTART.md) for the complete testnet reference path and [optional transaction examples](deploy/README.md) for its deliberate restrictions.
@@ -33,4 +35,4 @@ For example, the value 42 has parameter hex `000000000000002A` and resulting sta
 
 The owner is defined as the hook account in this example, not as a reusable admin model. It does not change ledger asset rights. Input normalization, arbitrary profile records, transaction fees, full memo parsing and emission are intentionally outside this minimal protocol.
 
-For emission, follow [the runtime-specific workflow](../../references/emit.md). A universal copied callback would misrepresent the verification needed, so no unverified serializer or refund implementation is included.
+For schema/fixture commands use [offline framework](../../references/offline-framework.md). For emission, follow [the runtime-specific workflow](../../references/emit.md) and [the pinned auto-forward example](../../references/auto-forward.md); its native evidence applies to the recorded standalone runtime only.

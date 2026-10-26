@@ -1,5 +1,7 @@
 # Emission, callbacks and recovery
 
+For concrete C, exact state layout, native standalone reproduction and evidence boundaries, use [auto-forward](auto-forward.md). Its shared mock tests exercise error branches; native success, child engine failure and bounded owner recovery were separately validated.
+
 ## Establish the actual runtime contract
 
 Before implementation inspect pinned headers, enabled amendments, node source and a known working example for the same runtime. Document preparation API signature, supported transaction serialization, fee/burden/generation rules, callback routing and how success/failure is observable. Modern preparation APIs may differ from older hand-built `EmitDetails` templates; do not mix them.

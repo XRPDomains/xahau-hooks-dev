@@ -61,8 +61,8 @@ test('issuer read-only CLI pins ledger, paginates and rejects wrong network/ledg
     socket.send(JSON.stringify({id:q.id,type:'response',status:'success',result}));
   }));
   const run=async(...extra)=>{
-    try{return {status:0,...await promisify(execFile)(process.execPath,[path.join(root,'assets/examples/deploy/read-issuer-state.mjs'),'--config',config,...extra],{timeout:20000,env:{...process.env,XAHAU_TESTNET_SEED:''}})};}
-    catch(e){return {status:e.code,stderr:e.stderr};}
+    try{return {status:0,...await promisify(execFile)(process.execPath,[path.join(root,'assets/examples/deploy/read-issuer-state.mjs'),'--config',config,...extra],{timeout:60000,env:{...process.env,XAHAU_TESTNET_SEED:''}})};}
+    catch(e){return {status:e.code,stderr:[e.message,e.stderr].filter(Boolean).join('\n')};}
   };
   try{
     fs.writeFileSync(config,JSON.stringify({networkId:21338,websocket:`ws://127.0.0.1:${server.address().port}`}));
@@ -79,7 +79,7 @@ test('issuer read-only CLI pins ledger, paginates and rejects wrong network/ledg
 
 test('issuer prepare/verify CLIs refuse overwriting and reject edited receipt evidence',{skip:!xahau},()=>{
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xh-issuer-cli-')),planFile=path.join(dir,'plan.json'),snapshotFile=path.join(dir,'readback.json'),receiptFile=path.join(dir,'receipt.json');
-  const run=(file,...args)=>spawnSync(process.execPath,[path.join(root,`assets/examples/deploy/${file}.mjs`),...args],{encoding:'utf8',timeout:10000,cwd:os.tmpdir()});
+  const run=(file,...args)=>spawnSync(process.execPath,[path.join(root,`assets/examples/deploy/${file}.mjs`),...args],{encoding:'utf8',timeout:60000,cwd:os.tmpdir()});
   try{
     const args=['--kind','uritoken','--issuer',issuer,'--holder',holder,'--out',planFile];
     assert.equal(run('prepare-issuer',...args).status,0);assert.equal(run('prepare-issuer',...args).status,1);

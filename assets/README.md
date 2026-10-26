@@ -1,5 +1,7 @@
 # Configuration and templates
 
+`contact-book.interface.json` and `contact-book.mock.json` pair with the C example and its artifact policy; see [offline framework](../references/offline-framework.md). `auto-forward-artifact-policy.json` and `auto-forward-evidence.json` pair with the runtime-pinned [emit/callback walkthrough](../references/auto-forward.md). Evidence labels distinguish mocks, production guard validation and standalone ledger execution.
+
 `minimal-artifact-policy.json` is deliberately narrow: only the minimal pass-through Hook's imports/exports, with a conservative example byte budget. The budget is not a universal network limit. Add reviewed APIs only when the project uses them and the selected validator supports them. Policies require `maxBytes`, `allowedImports`, `requiredImports`, `allowedExports`, and `requiredExports`. Symbols include kind, e.g. `env.accept:function`.
 
 `owner-setting-artifact-policy.json` covers the separate owner-setting example. Optional build recipes are in [toolchain](../references/toolchain-setup.md); optional testnet signing/WebSocket examples are in [deploy](examples/deploy/README.md). They have independent exact npm locks and do not change the dependency-free core scripts.

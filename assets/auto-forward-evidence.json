@@ -1,0 +1,282 @@
+{
+  "scope": "LOCAL_STANDALONE",
+  "result": "PASS",
+  "networkId": 2133900,
+  "buildVersion": "2026.10.13-release+4119",
+  "node": {
+    "repository": "Xahau/xahaud",
+    "release": "2026.10.13-release+4119",
+    "revision": "d20e8ffb561034101d24668adbe9a513f639cb37",
+    "asset": "2026.10.13-release+4119",
+    "sha256": "1c5b2988c88c9a49abb95bc8974289f253167cf0b5121d7412b60b37533d0d2a",
+    "bytes": 160035984,
+    "source": "https://github.com/Xahau/xahaud/releases/download/2026.10.13-release%2B4119/2026.10.13-release%2B4119",
+    "binaryChecksumVerifiedAgainst": "Official GitHub release asset digest",
+    "localRuleOverride": "HooksUpdate2",
+    "standaloneVerifiedBy": "Successful admin ledger_accept before signing"
+  },
+  "artifactSha256": "c556dd67da3a945d533563dc9e6557520ec8907c4a2848f48b4c3cd5fd2eea0c",
+  "sourceSha256": "8bb8d1ec739299883b8057d5fb1c51c47672cf1a3e55fb4b29efd743063e39ca",
+  "hookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+  "build": {
+    "bytes": 2209,
+    "versions": {
+      "clangWasm": "0.3.0",
+      "binaryen": "132.0.0",
+      "hookCleaner": "0.2.2"
+    },
+    "lockSha256": "8ae100fafa4fa93c656412f0d59a0837ee6ba8cd25f27759a26f09113d09926c"
+  },
+  "guard": {
+    "artifactSha256": "c556dd67da3a945d533563dc9e6557520ec8907c4a2848f48b4c3cd5fd2eea0c",
+    "checkerSha256": "f5eb70c9523df5108205a80aa850b07abfcf0c9c2d45c1f07af1ed139b124e17",
+    "worstCaseCounts": [
+      11090,
+      1008
+    ],
+    "revision": "5c05e107c0211dcedb7adcf73dab1f6012747fe7"
+  },
+  "accounts": {
+    "owner": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+    "savings": "rppCXVGLs44fqv3wS3uR8MQ254rxbQR5ue"
+  },
+  "pending": {
+    "success": {
+      "status": 1,
+      "child": "94136F7627CD431DB23F92948C776DFAABE3F7DDA67B8FF2D1199058228D80C5",
+      "drops": "50000",
+      "attempts": 1,
+      "hex": "010194136F7627CD431DB23F92948C776DFAABE3F7DDA67B8FF2D1199058228D80C5000000000000C3500B48B38A90F4038138444180A09AC88C23ADB91D01B3DB576DA2B187A25B1D00BAABEECF909A2527E1C70CAA3899A1AF5D64113C0F"
+    },
+    "failure": {
+      "status": 1,
+      "child": "7C6461ABD1DE50F82D304562F46795C7BD02CC76F27BDBF6C8A180DA5C219238",
+      "drops": "100000",
+      "attempts": 1,
+      "hex": "01017C6461ABD1DE50F82D304562F46795C7BD02CC76F27BDBF6C8A180DA5C21923800000000000186A00B48B38A90F4038138444180A09AC88C23ADB91D01556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A"
+    },
+    "retry": {
+      "status": 1,
+      "child": "279FB2413E84ADCC4A2350843A911A54A29527C6E4AF1F1AF7A6DE71D8480C4B",
+      "drops": "100000",
+      "attempts": 2,
+      "hex": "0101279FB2413E84ADCC4A2350843A911A54A29527C6E4AF1F1AF7A6DE71D8480C4B00000000000186A00B48B38A90F4038138444180A09AC88C23ADB91D02556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A"
+    }
+  },
+  "balanceChecks": {
+    "successDelta": "50000",
+    "failedDelta": "0",
+    "retryDelta": "100000",
+    "asserted": true
+  },
+  "success": {
+    "status": 2,
+    "child": "94136F7627CD431DB23F92948C776DFAABE3F7DDA67B8FF2D1199058228D80C5",
+    "drops": "50000",
+    "attempts": 1,
+    "hex": "010294136F7627CD431DB23F92948C776DFAABE3F7DDA67B8FF2D1199058228D80C5000000000000C3500B48B38A90F4038138444180A09AC88C23ADB91D01B3DB576DA2B187A25B1D00BAABEECF909A2527E1C70CAA3899A1AF5D64113C0F"
+  },
+  "failed": {
+    "status": 3,
+    "child": "7C6461ABD1DE50F82D304562F46795C7BD02CC76F27BDBF6C8A180DA5C219238",
+    "drops": "100000",
+    "attempts": 1,
+    "hex": "01037C6461ABD1DE50F82D304562F46795C7BD02CC76F27BDBF6C8A180DA5C21923800000000000186A00B48B38A90F4038138444180A09AC88C23ADB91D01556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A"
+  },
+  "recovered": {
+    "status": 2,
+    "child": "279FB2413E84ADCC4A2350843A911A54A29527C6E4AF1F1AF7A6DE71D8480C4B",
+    "drops": "100000",
+    "attempts": 2,
+    "hex": "0102279FB2413E84ADCC4A2350843A911A54A29527C6E4AF1F1AF7A6DE71D8480C4B00000000000186A00B48B38A90F4038138444180A09AC88C23ADB91D02556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A"
+  },
+  "children": [
+    {
+      "hash": "94136F7627CD431DB23F92948C776DFAABE3F7DDA67B8FF2D1199058228D80C5",
+      "validated": true,
+      "ledgerIndex": 64,
+      "result": "tesSUCCESS",
+      "amount": "50000",
+      "account": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "destination": "rppCXVGLs44fqv3wS3uR8MQ254rxbQR5ue",
+      "emitDetails": {
+        "EmitBurden": "1",
+        "EmitCallback": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+        "EmitGeneration": 1,
+        "EmitHookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+        "EmitNonce": "EE4C3E98E4E435A245F8525310AC9CA073250ED5FF7DD67D1A07787903CADEF5",
+        "EmitParentTxnID": "B3DB576DA2B187A25B1D00BAABEECF909A2527E1C70CAA3899A1AF5D64113C0F"
+      },
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 2,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 0,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "414",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "hash": "7C6461ABD1DE50F82D304562F46795C7BD02CC76F27BDBF6C8A180DA5C219238",
+      "validated": true,
+      "ledgerIndex": 68,
+      "result": "tecDST_TAG_NEEDED",
+      "amount": "100000",
+      "account": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "destination": "rppCXVGLs44fqv3wS3uR8MQ254rxbQR5ue",
+      "emitDetails": {
+        "EmitBurden": "1",
+        "EmitCallback": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+        "EmitGeneration": 1,
+        "EmitHookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+        "EmitNonce": "29692EE35D05691DA39D59312CFCEE2BCBD9A9D92CB3A3377F0570AF865B99A0",
+        "EmitParentTxnID": "556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A"
+      },
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 2,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 0,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "414",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "hash": "279FB2413E84ADCC4A2350843A911A54A29527C6E4AF1F1AF7A6DE71D8480C4B",
+      "validated": true,
+      "ledgerIndex": 72,
+      "result": "tesSUCCESS",
+      "amount": "100000",
+      "account": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "destination": "rppCXVGLs44fqv3wS3uR8MQ254rxbQR5ue",
+      "emitDetails": {
+        "EmitBurden": "1",
+        "EmitCallback": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+        "EmitGeneration": 1,
+        "EmitHookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+        "EmitNonce": "DB650DF828AC2FE2E04EE878E928D6EB5B07914FE57640F69E5BEA1554CD8807",
+        "EmitParentTxnID": "D5BBD58AA563EF6189E59B75C18AF05DD6741ABAD75C9BC2E53B029A320D46F8"
+      },
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 2,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 0,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "414",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "parents": [
+    {
+      "hash": "A494F090D4E5714D6922BA5EB65F6CFFC9FBD8BAEE58E8D6D8921D986B120D14",
+      "validated": true,
+      "ledgerIndex": 60,
+      "result": "tesSUCCESS",
+      "amount": "1000000000",
+      "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "destination": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R"
+    },
+    {
+      "hash": "B3DB576DA2B187A25B1D00BAABEECF909A2527E1C70CAA3899A1AF5D64113C0F",
+      "validated": true,
+      "ledgerIndex": 63,
+      "result": "tesSUCCESS",
+      "amount": "1000000",
+      "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "destination": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 1,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 1,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "cf9",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 0
+          }
+        }
+      ]
+    },
+    {
+      "hash": "556C5845D367C40D950A20832CAF0822F4042A8960C1A08C1EC53089388C698A",
+      "validated": true,
+      "ledgerIndex": 67,
+      "result": "tesSUCCESS",
+      "amount": "2000000",
+      "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "destination": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 1,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 1,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "d0c",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "hash": "D5BBD58AA563EF6189E59B75C18AF05DD6741ABAD75C9BC2E53B029A320D46F8",
+      "validated": true,
+      "ledgerIndex": 71,
+      "result": "tesSUCCESS",
+      "account": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+      "hookExecutions": [
+        {
+          "HookExecution": {
+            "Flags": 1,
+            "HookAccount": "ra3rYD1JPKFTGWd35rhv4TxFmh49x9iz8R",
+            "HookEmitCount": 1,
+            "HookExecutionIndex": 0,
+            "HookHash": "7FBD1EC80CB34F511372D12413CD69C12F109588A53E5A3A783CE24838B52293",
+            "HookInstructionCount": "617",
+            "HookResult": 3,
+            "HookReturnCode": "0",
+            "HookReturnString": "",
+            "HookStateChangeCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "nativeExpiry": "NOT_RUN",
+  "nativeCallbackWriteFault": "NOT_RUN",
+  "publicNetwork": "NOT_RUN",
+  "note": "Public local-ledger summaries, not proofs retrievable on a public explorer. No secrets. Raw local reports retained under ignored build/native-node."
+}

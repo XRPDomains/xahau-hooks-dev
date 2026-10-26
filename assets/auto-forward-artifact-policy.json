@@ -1,0 +1,51 @@
+{
+  "maxBytes": 16384,
+  "allowedImports": [
+    "env._g:function",
+    "env.otxn_type:function",
+    "env.accept:function",
+    "env.hook_account:function",
+    "env.otxn_field:function",
+    "env.state:function",
+    "env.rollback:function",
+    "env.otxn_param:function",
+    "env.otxn_generation:function",
+    "env.hook_param:function",
+    "env.otxn_id:function",
+    "env.etxn_reserve:function",
+    "env.prepare:function",
+    "env.emit:function",
+    "env.state_set:function",
+    "env.meta_slot:function",
+    "env.slot_subfield:function",
+    "env.slot:function"
+  ],
+  "requiredImports": [
+    "env._g:function",
+    "env.otxn_type:function",
+    "env.accept:function",
+    "env.hook_account:function",
+    "env.otxn_field:function",
+    "env.state:function",
+    "env.rollback:function",
+    "env.otxn_param:function",
+    "env.otxn_generation:function",
+    "env.hook_param:function",
+    "env.otxn_id:function",
+    "env.etxn_reserve:function",
+    "env.prepare:function",
+    "env.emit:function",
+    "env.state_set:function",
+    "env.meta_slot:function",
+    "env.slot_subfield:function",
+    "env.slot:function"
+  ],
+  "allowedExports": [
+    "hook:function",
+    "cbak:function"
+  ],
+  "requiredExports": [
+    "hook:function",
+    "cbak:function"
+  ]
+}

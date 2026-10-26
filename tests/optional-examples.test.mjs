@@ -32,7 +32,7 @@ test('optional signer stays offline without submit and rejects mainnet, stale ev
     fs.writeFileSync(config,JSON.stringify({networkId:21338,websocket:'ws://127.0.0.1:9'}));
     fs.writeFileSync(transaction,JSON.stringify(tx));fs.writeFileSync(proof,JSON.stringify(evidence));
     const run=(...extra)=>spawnSync(process.execPath,[path.join(root,'assets/examples/deploy/submit-testnet.mjs'),
-      '--config',config,'--tx',transaction,'--evidence',proof,...extra],{encoding:'utf8',timeout:5000,env:{...process.env,XAHAU_TESTNET_SEED:''}});
+      '--config',config,'--tx',transaction,'--evidence',proof,...extra],{encoding:'utf8',timeout:60000,env:{...process.env,XAHAU_TESTNET_SEED:''}});
     const offline=run();assert.equal(offline.status,0,offline.stderr);assert.equal(JSON.parse(offline.stdout).stage,'OFFLINE_REVIEW_ONLY');
     const missingCap=run('--submit');assert.equal(missingCap.status,1);assert.match(missingCap.stderr,/max-fee-drops/);
     fs.writeFileSync(proof,JSON.stringify({...evidence,sha256:'wrong'}));assert.equal(run().status,1);

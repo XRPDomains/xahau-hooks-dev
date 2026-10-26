@@ -2,7 +2,7 @@
 name: xahau-hooks-dev
 description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads and transaction-based writes. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.3.0"
+  version: "1.5.0"
 ---
 
 # Xahau Hooks development
@@ -38,6 +38,8 @@ Read only relevant references:
 | NFT/URIToken or issued-currency issuer policy and readback | [Issuer examples](references/issuer-examples.md) |
 | First-run failure symptoms | [First-run errors](references/first-run-errors.md) |
 | Audit, regression, fault injection, error investigation | [Testing and debugging](references/testing.md) |
+| Offline WASM fixtures, schema codecs, generated unsigned Invoke, guard diagnostics | [Offline framework](references/offline-framework.md) |
+| Runtime-pinned emitted Payment, callback, confirmed-failure retry | [Auto-forward walkthrough](references/auto-forward.md) |
 
 For a beginner, start with C essentials and the minimal examples in [examples](assets/examples/README.md). Explain the relevant C concept alongside each fix; avoid an unrelated C course.
 
@@ -57,6 +59,9 @@ Node.js 20+; core scripts have no third-party dependencies. The optional compile
 
 - `scripts/doctor.mjs`: report npm, local compilers, exact optional dependency metadata and per-task readiness; WSL probes only with `--wsl DISTRO`, Docker daemon only with `--docker`. A report is not build/validation evidence. Follow [environment setup](references/environment-setup.md) for missing tools.
 - `scripts/lint-source.mjs`: lexical C review hints for discarded API results, direct unsigned API conversions and loops without recognized local guards. No preprocessing, type or control-flow proof; no findings is not an audit PASS. See [testing](references/testing.md).
+- `scripts/mock-hook.mjs`: worker-isolated offline WASM fixtures with bounded memory, timeout, state overlay, guards and fault injection. Unsupported imports fail; prepare/emit are explicit fixture adapters, callback tests do not simulate native weak semantics.
+- `scripts/generate-client.mjs`: package-specific schema v1 -> standalone byte codec and unsigned Invoke builder. No RPC/signing; independently verify schema against C, version and production artifact hash. This narrow helper does not extend scope to application SDK development.
+- `scripts/profile-guards.mjs`: source budgets/lines, input-specific mock visits and optional real checker totals. No exact per-loop instruction cost or automatic guard reduction.
 - `scripts/init-project.mjs`: create a new project source layout from the teaching example and contract template; refuse an existing destination. Does not install tools or create a deployment.
 - `scripts/inspect-artifact.mjs`: WASM structure, exact imports/exports policy, byte budget, SHA-256; optionally execute a supplied guard checker without a shell. Does not implement a replacement guard checker.
 - `scripts/decode-state.mjs`: validate a fixed binary layout and decode bytes/BE unsigned integers. Does not discover unknown state keys or verify project C layouts automatically.

@@ -1,6 +1,6 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.3.0**.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.5.0**, combining the planned 1.4 offline tooling and 1.5 emitted-transaction examples.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
 
@@ -9,6 +9,8 @@ It includes direct on-chain reads and transaction-based writes, beginner C guida
 If the machine lacks Node/npm, compiler dependencies or a checker, start with [environment setup](references/environment-setup.md). For NFT and issued-currency issuers, use the [issuer examples](references/issuer-examples.md): small C policy Hooks, offline transaction plans, negative cases and validated readback. Live issuance and asset transfers require project-specific verification.
 
 The [agent workflow](references/agent-workflow.md) adds cached testnet wallet/funding, both seed algorithms, generic unsigned Invoke payloads, direct UTF-8 reports and a configured lint/test/build/guard/install/smoke/readback pipeline. Local validation is the default; live steps require explicit submission options and a reviewed project contract.
+
+The [offline framework](references/offline-framework.md) adds a shared WASM mock runner, a schema-driven standalone codec/unsigned Invoke generator, a matching contact-book C example, and guard diagnostics combining declared budgets, observed visits and real checker totals. The [auto-forward example](references/auto-forward.md) demonstrates emitted Payment, correlated callback and bounded owner retry, with saved standalone-node success/failure/recovery evidence. Native expiry and weak state-write fault injection remain unverified.
 
 ## Installation
 

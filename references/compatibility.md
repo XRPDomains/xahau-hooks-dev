@@ -37,4 +37,4 @@ behavioral and fault-injection evidence:
 
 Core Node tools require Node 20+ built-ins. The HTTP reader needs network ID in `server_info`, `ledger`, and `account_namespace`; the optional WebSocket reference uses the same read contract. Optional npm compiler/header and signing dependencies are installed only by explicit setup commands, each with exact versions and a lock. No RPC server, wallet or system compiler is installed automatically.
 
-The examples are original teaching material. Portable helper tests, measured production guard validity and live transactions remain separate evidence levels. There are no certified emit/callback snippets in this release because that would require a specific runtime contract and native integration evidence.
+The examples are original teaching material. Portable helper tests, measured production guard validity and live transactions remain separate evidence levels. The [auto-forward example](auto-forward.md) records a specific standalone runtime contract and native success/failure/retry evidence. It is not a general certification for other runtime/amendment combinations.
