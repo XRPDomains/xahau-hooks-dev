@@ -13,6 +13,14 @@ Date: 2026-10-26. These are package verification results, not a live deployment 
 
 The user supplied an agent's report of Claude end-to-end use, 56/56 passing tests in a clean container, and independently rebuilt issuer artifacts with matching SHA-256 and guard PASS. This is user-relayed external evidence, not a second run performed by this package's author; raw evaluator logs and transaction hashes were not supplied here. The evaluator attributed earlier VM-only subprocess failures to timeouts; the robustness change above addresses that reported symptom. Independent Cursor evaluation remains **NOT_RUN**. The historical independent-evaluation row below describes the original 1.1.0 baseline only.
 
+## Cursor feedback and Windows onboarding follow-up
+
+The user subsequently supplied a Cursor assessment reporting successful build/test/guard use on the user's machine and identifying discovery/PowerShell onboarding friction. This is **REPORTED_PARTIAL_USE**, with no independently supplied Cursor version, transcript, commands or artifact hashes. It does not establish slash-menu discovery or a complete Cursor install/submit/readback evaluation; formal Cursor end-to-end evaluation remains **NOT_RUN**. The two inspected personal/project `.cursor/skills/xahau-hooks-dev` paths were absent at this follow-up; no Cursor installation or project rule was created by the author.
+
+The [Windows walkthrough](references/windows-first-hook.md) documents explicit Cursor installation, scoped rule guidance and a local-only PowerShell pipeline. Package syntax/links and its pipeline evidence are checked separately from Cursor behavior. This documentation follow-up does not change signing/submission logic or broaden deployment authorization.
+
+The walkthrough's local pipeline block was executed in Windows PowerShell against the existing installed dependencies and Ubuntu checker: lint/build/guard **PASS**, final `LOCAL_VALIDATION_ONLY`, tests and every wallet/ledger stage **NOT_RUN**. Evidence is retained locally under `build/first-hook-9b91dc4196ca401096ed89a1fcbb44f0/evidence.json`. Cursor cloning/discovery, fresh-machine prerequisite installation, funding and submission were not exercised. Package validation passed for 116 files, 140 local links and 55 JavaScript modules; skill frontmatter validation and `git diff --check` passed.
+
 ## 1.3.0 agent workflow fixes — 2026-10-26
 
 This update responds to a second agent's reported operational issues. The seed-algorithm default and Self-Invoke restriction were reproduced against the locked Xahau library. PowerShell encoding guidance distinguishes Windows PowerShell 5.1 from newer versions; no live faucet rate/latency constant is assumed.

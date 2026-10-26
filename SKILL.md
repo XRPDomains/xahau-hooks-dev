@@ -23,6 +23,7 @@ Read only relevant references:
 |---|---|
 | New project, operations, authorization, state machine | [Architecture](references/architecture.md) |
 | First working build/install/write/readback | [Quickstart](QUICKSTART.md) |
+| Windows PowerShell, Cursor discovery, first local build + guard | [First Hook on Windows](references/windows-first-hook.md) |
 | Cached testnet wallet, custom Invoke, UTF-8 reports or configured pipeline | [Agent workflow](references/agent-workflow.md) |
 | No Node/npm, missing dependencies, restricted/offline machine | [Environment setup](references/environment-setup.md) |
 | Missing compiler/cleaner/checker; npm, Docker or WSL setup | [Toolchain setup](references/toolchain-setup.md) |

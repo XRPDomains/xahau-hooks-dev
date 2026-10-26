@@ -6,6 +6,8 @@ It includes direct on-chain reads and transaction-based writes, beginner C guida
 
 **New to Hooks? Start with [QUICKSTART.md](QUICKSTART.md)**: install the optional compiler, build and guard-check a small hook, prepare a testnet install, explicitly sign/submit, write a setting and read its state back. Optional examples are restricted to a fresh testnet installation; they never automatically deploy an existing project.
 
+**Windows / Cursor:** [First Hook on Windows](references/windows-first-hook.md) starts with a PowerShell local build + guard pipeline, before wallets or deployment. It also explains Cursor discovery, an optional scoped project rule and how to interpret fresh-output errors.
+
 If the machine lacks Node/npm, compiler dependencies or a checker, start with [environment setup](references/environment-setup.md). For NFT and issued-currency issuers, use the [issuer examples](references/issuer-examples.md): small C policy Hooks, offline transaction plans, negative cases and validated readback. Live issuance and asset transfers require project-specific verification.
 
 The [agent workflow](references/agent-workflow.md) adds cached testnet wallet/funding, both seed algorithms, generic unsigned Invoke payloads, direct UTF-8 reports and a configured lint/test/build/guard/install/smoke/readback pipeline. Local validation is the default; live steps require explicit submission options and a reviewed project contract.

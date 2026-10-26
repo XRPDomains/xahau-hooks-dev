@@ -1,5 +1,7 @@
 # First Hook: build, install, write and read back
 
+**Windows PowerShell / Cursor:** start with [First Hook on Windows](references/windows-first-hook.md). It gives a local build + guard milestone with explicit exit checks and no wallet requirement, then routes to the configured cache-based testnet workflow. The longer commands below use Bash syntax.
+
 This is the shortest reference path for a new developer. It uses a fresh **testnet** account and the small `owner-setting.c` example so there is real state to verify. Allow extra time for dependencies, faucet funding and ledger validation; “ten minutes” is not guaranteed. No network transactions were sent when this walkthrough was packaged.
 
 Commands below use a POSIX shell on Linux or inside Windows WSL. Prerequisites: Node.js 20+, npm, Git, `g++` (Linux/WSL checker), and an independently funded disposable testnet wallet. The npm compiler can also run on Windows/macOS; use a compatible Linux/WSL environment for this checker's verified route. See [toolchain setup](references/toolchain-setup.md).
