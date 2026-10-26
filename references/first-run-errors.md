@@ -16,6 +16,10 @@ An engine code identifies a category, not necessarily one root cause. Retain the
 | `tesSUCCESS` but no HookExecutions | Wrong routing, mask/direction, operation path or stakeholder assumptions | Check the installation and transaction; do not claim business success |
 | `namespaceNotFound` or empty state | No state written, wrong namespace/account, reset or wrong ledger | Minimal accept has no records; use owner-setting's write before expecting data |
 | Timeout after signing/submission | Outcome unknown | Read the journal hash via `tx`; do not recreate the payment blindly |
+| Faucet funded an address but `actNotFound` persists | Wrong seed algorithm/derived address, or funding not validated yet | Use `loadWallet(seed, expectedAddress)`; reuse the cache and wait for validated `account_info` |
+| `Invoke: Destination and Account must not be equal` | Self call encoded as an equal-address Destination | Omit Destination entirely for self-Invoke |
+| JSON syntax error after PowerShell redirection | Windows PowerShell 5.1 may have written UTF-16LE | Use the reporting CLI's direct UTF-8 `--out`; BOM-marked older JSON can be read by the shared reader |
+| Faucet says wait/cooldown | Explicit rate rejection | Retry the same cached address with bounded delay; an unknown funding outcome is not permission to request again |
 | `tesPARTIAL` during namespace deletion | Bounded cleanup not finished | Inspect remaining state and the target's deletion rules before another authorized cleanup |
 
 For the broader workflow see [testing and debugging](testing.md). Primary references: [compilation](https://xahau.network/docs/hooks/concepts/compiling-hooks/) and [SetHook](https://xahau.network/docs/protocol-reference/transactions/transaction-types/sethook/).

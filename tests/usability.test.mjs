@@ -17,7 +17,7 @@ const run=async(script,...argv)=>{
   catch(e){return {status:e.code,stdout:e.stdout,stderr:e.stderr};}
 };
 const account='rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh',hash='AB'.repeat(32);
-const tx=()=>({TransactionType:'Invoke',Account:account,Destination:account,NetworkID:21338,
+const tx=()=>({TransactionType:'Invoke',Account:account,NetworkID:21338,
   HookParameters:Object.entries({op:'register',name:'abc',value:'https://example.com'}).map(([k,v])=>({HookParameter:{HookParameterName:Buffer.from(k).toString('hex'),HookParameterValue:Buffer.from(v).toString('hex')}}))});
 test('HTTP read CLI accepts explicit endpoint/network or JSON file and rejects URL config clearly',async()=>{
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xh-read-cli-'));let count=0;
@@ -97,7 +97,7 @@ test('project submitter from unrelated cwd stays offline and enforces submit bou
     fs.writeFileSync(config,JSON.stringify({networkId:21338,websocket:'ws://127.0.0.1:9'}));fs.writeFileSync(file,JSON.stringify(tx()));
     const base=['--config',config,'--tx',file,'--expected-hook-account',account,'--expected-hook-hash',hash];
     const offline=await run('assets/examples/deploy/submit-project.mjs',...base);assert.equal(offline.status,0,offline.stderr);assert.equal(JSON.parse(offline.stdout).stage,'OFFLINE_REVIEW_ONLY');
-    const decoded=xahau.decode(xahau.encode({...tx(),Fee:'0',Sequence:1,LastLedgerSequence:100,SigningPubKey:''}));assert.equal(decoded.Destination,account);
+    const decoded=xahau.decode(xahau.encode({...tx(),Fee:'0',Sequence:1,LastLedgerSequence:100,SigningPubKey:''}));assert.equal(decoded.Destination,undefined);
     assert.match((await run('assets/examples/deploy/submit-project.mjs',...base,'--submit')).stderr,/max-fee-drops/);
     fs.writeFileSync(journal,'existing');
     assert.match((await run('assets/examples/deploy/submit-project.mjs',...base,'--submit','--max-fee-drops','1000','--journal',journal)).stderr,/Journal exists/);

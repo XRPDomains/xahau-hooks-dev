@@ -2,7 +2,7 @@
 name: xahau-hooks-dev
 description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads and transaction-based writes. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Xahau Hooks development
@@ -23,6 +23,7 @@ Read only relevant references:
 |---|---|
 | New project, operations, authorization, state machine | [Architecture](references/architecture.md) |
 | First working build/install/write/readback | [Quickstart](QUICKSTART.md) |
+| Cached testnet wallet, custom Invoke, UTF-8 reports or configured pipeline | [Agent workflow](references/agent-workflow.md) |
 | No Node/npm, missing dependencies, restricted/offline machine | [Environment setup](references/environment-setup.md) |
 | Missing compiler/cleaner/checker; npm, Docker or WSL setup | [Toolchain setup](references/toolchain-setup.md) |
 | C beginner, pointer/length, overflow, byte handling | [C essentials](references/c-essentials.md) |
@@ -64,12 +65,15 @@ Node.js 20+; core scripts have no third-party dependencies. The optional compile
 - `scripts/hookon.mjs`: calculate masks with the active-high SetHook exception; validate directional field combinations for HookOnV2_1.
 - `scripts/setup-guard.mjs`: download/checksum pinned checker sources, then build using the existing C++ compiler or explicit WSL distribution.
 - `scripts/prepare-sethook.mjs` and `scripts/prepare-setting.mjs`: generate offline unsigned first-install/example-write transactions.
+- `scripts/agent-pipeline.mjs`: lint, explicit tests, compile and guard-check with evidence; optionally perform a fresh testnet install and self-Invoke/readback using a reviewed JSON contract. Offline by default; never invent an arbitrary hook's smoke input or replay an existing work directory.
 
 For beginner builds use `assets/toolchain/compile.mjs` and [setup](references/toolchain-setup.md). Optional `assets/examples/deploy/` provides a restricted testnet signer and WebSocket state reader, not a project SDK. Its signing path refuses mainnet, existing-hook replacement, deletion flags and unrelated writes; it needs explicit submit authorization, fee cap and new journal. Never silently expand it to deploy an existing multi-hook application. Core read-only tools may read an explicitly configured mainnet; local doctor has no RPC target.
 
 Policy/layout examples are under [assets](assets/README.md). Require explicit project-specific values; the supplied artifact policy is only for the minimal pass-through example.
 
 For application writes beyond the teaching setting, adapt the separate [project Invoke submitter](references/deployment.md#project-submitter-template). For strings/URLs, use the [variable-length state example](references/state.md#variable-length-state-example) and native round-trip template. These examples need project protocol checks and do not certify application correctness.
+
+For arbitrary codec-valid Invoke payloads use the [generic Invoke path](references/agent-workflow.md). Self-Invoke omits Destination. Load existing testnet seeds with the wrapper that checks algorithm/address. Use CLI `--out` for JSON reports rather than shell redirection; directory-generating commands retain their directory `--out` semantics.
 
 ## Evidence and completion
 

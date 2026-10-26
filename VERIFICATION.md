@@ -1,8 +1,18 @@
-# Verification: 1.2.0
+# Verification: 1.3.0
 
 Date: 2026-10-26. These are package verification results, not a live deployment certification. Historical 1.1.0 evidence is retained below with its original scope.
 
-## 1.2.0 environment and issuer updates — 2026-10-26
+## 1.3.0 agent workflow fixes — 2026-10-26
+
+This update responds to a second agent's reported operational issues. The seed-algorithm default and Self-Invoke restriction were reproduced against the locked Xahau library. PowerShell encoding guidance distinguishes Windows PowerShell 5.1 from newer versions; no live faucet rate/latency constant is assumed.
+
+- **56/56 Node tests PASS, zero skips** across seven test files. Ten workflow groups add both generated seed families/address mismatch, BOM-marked UTF-16 JSON input and direct UTF-8 output, generic Invoke business-field validation, fee/network/trace rejection, journal-before-submit and unknown-outcome handling, account validation latency, cached local faucet identity/cooldown and no-repeat behavior, stopped pipeline evidence and a complete configured pipeline against a local mock ledger.
+- The complete mock pipeline uses disposable test-generated keys, real offline signing and exactly two submissions **to a local WebSocket fixture**, then verifies mocked installed identity, execution and state bytes. It does not submit to a real network or read an existing user seed. The test asserts the public evidence/stdout do not contain the generated seed.
+- A separate local-only owner-setting pipeline run completed lint, explicitly selected tool tests, npm compilation and pinned production guard-check through WSL Ubuntu. Artifact remained 632 bytes with SHA-256 `74a3ead81a1d305bcd4fa3832d76e8525b6a73d88841aa954d7d350d86fb6f87`; wallet/install/smoke/readback were NOT_RUN in that real-tool run. Local evidence is generated under `build/agent-workflow-local/` and is not packaged as live deployment evidence.
+- Funding tests inject a fake faucet transport. No live faucet request, testnet account provisioning or testnet SetHook/Invoke was performed. Exact current reserve calculation, live provider behavior, real cooldown responses, OS credential permissions and application-specific failure recovery still require controlled project verification.
+- Report CLI syntax/local links and skill metadata were validated. The source and installed skill are version 1.3.0. No versioned ZIP was rebuilt.
+
+## Historical 1.2.0 environment and issuer updates — 2026-10-26
 
 - **46/46 Node tests PASS, zero skips** across the six documented test files. The ten new groups cover missing/wrong dependency metadata, command failures versus timeouts, Windows npm entrypoint discovery, per-task readiness, real offline Xahau codec plans, saved receipt/readback failures, local WebSocket ledger pinning/pagination/network mismatch, CLI boundaries, and compiled issuer WASM policy branches with mocked hosts.
 - `doctor --wsl Ubuntu --guard build/guard/guard_checker` ran on Windows Node 22.17.0/npm 10.9.2 and observed Ubuntu GCC 13.3.0. No packages were installed by doctor. A cold WSL probe initially timed out; diagnostics now retain TIMED_OUT separately from NOT_FOUND, and the explicit recheck observed the installed compiler. Guard file presence remains NOT_RUN for artifact validation.
@@ -28,7 +38,7 @@ Verified locally on 2026-10-25, after the 1.1.0 baseline below:
 - Source lint is a lexical heuristic with documented false positives/negatives. It does not close every source-audit obligation and is not a replacement for compiler analysis, manual review or production guard checking.
 - The skill-using agent's 1112-instruction/on-chain fee observation is documented as agent-reported evidence, with the fee relationship checked against official documentation. No transaction hash was supplied for independent retrieval.
 
-The 1.2.0 version applies to the source and installed skill. No versioned ZIP was rebuilt.
+The 1.2.0 source and installed skill were synchronized at that baseline. No versioned ZIP was rebuilt.
 
 ## Historical 1.1.0 baseline — 2026-10-25
 

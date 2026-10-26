@@ -1,12 +1,14 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.2.0**.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.3.0**.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
 
 **New to Hooks? Start with [QUICKSTART.md](QUICKSTART.md)**: install the optional compiler, build and guard-check a small hook, prepare a testnet install, explicitly sign/submit, write a setting and read its state back. Optional examples are restricted to a fresh testnet installation; they never automatically deploy an existing project.
 
 If the machine lacks Node/npm, compiler dependencies or a checker, start with [environment setup](references/environment-setup.md). For NFT and issued-currency issuers, use the [issuer examples](references/issuer-examples.md): small C policy Hooks, offline transaction plans, negative cases and validated readback. Live issuance and asset transfers require project-specific verification.
+
+The [agent workflow](references/agent-workflow.md) adds cached testnet wallet/funding, both seed algorithms, generic unsigned Invoke payloads, direct UTF-8 reports and a configured lint/test/build/guard/install/smoke/readback pipeline. Local validation is the default; live steps require explicit submission options and a reviewed project contract.
 
 ## Installation
 
@@ -162,7 +164,7 @@ node scripts/inspect-artifact.mjs --wasm /path/to/final.wasm --policy /path/to/p
 node scripts/decode-state.mjs --layout assets/state-layout.example.json --hex 01000000000000002A
 node scripts/read-state.mjs --config /path/to/network.json --account rAddress --namespace HEX64 --out snapshot.json
 node scripts/summarize-tx.mjs --file /path/to/tx-response.json
-node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs tests/usability.test.mjs tests/environment.test.mjs tests/issuer-examples.test.mjs
+node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs tests/usability.test.mjs tests/environment.test.mjs tests/issuer-examples.test.mjs tests/agent-workflow.test.mjs
 node scripts/validate-package.mjs
 ```
 
@@ -183,7 +185,7 @@ See [asset formats](assets/README.md) for configuration details. Tool tests use 
 
 Use [the report template](assets/report-template.md). Keep compilation, static guard validation, native tests, mocked probes, node validation, live transactions, and recovery tests separate. Unavailable tools or untested phases remain **NOT_RUN**, not PASS.
 
-This release has 46 locally passing Node tests. Its four small Hook examples have npm build and production guard evidence; the issuer examples also have mocked WASM policy tests and offline transaction/readback fixtures. They remain teaching examples, not independently network-certified contracts. The optional signer was not exercised with live transactions; Docker and target-node validation are separate evidence stages. No complete emitted-transaction serializer or callback implementation is shipped.
+This release has 56 locally passing Node tests. Its four small Hook examples have npm build and production guard evidence; the issuer examples also have mocked WASM policy tests and offline transaction/readback fixtures. They remain teaching examples, not independently network-certified contracts. The optional signer was not exercised with live transactions; Docker and target-node validation are separate evidence stages. No complete emitted-transaction serializer or callback implementation is shipped.
 
 See [release verification](VERIFICATION.md) for the actual checks and untested stages of this release.
 

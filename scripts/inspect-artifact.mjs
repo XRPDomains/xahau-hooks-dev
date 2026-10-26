@@ -6,8 +6,8 @@ import {args, integer, jsonFile, main, print, required} from './lib.mjs';
 import {guardResult} from './guard.mjs';
 import {wslPath} from './wsl-path.mjs';
 main(() => {
-  const a = args(process.argv.slice(2), ['--wasm', '--policy', '--guard', '--wsl'], ['--help']);
-  if (a['--help']) return print({usage:'node inspect-artifact.mjs --wasm final.wasm [--policy policy.json] [--guard /path/to/guard_checker] [--wsl Ubuntu]',
+  const a = args(process.argv.slice(2), ['--wasm', '--policy', '--guard', '--wsl','--out'], ['--help']);
+  if (a['--help']) return print({usage:'node inspect-artifact.mjs --wasm final.wasm [--policy policy.json] [--guard /path/to/guard_checker] [--wsl Ubuntu] [--out inspection.json]',
     exitCodes:{0:'Structural policy passed; inspect guard stage separately',1:'Invalid artifact/policy or guard failure',2:'Policy not configured'},
     note:'External checker receives the artifact path as its sole argument. No shell, no custom flags. Does not measure nesting/stack/instruction count.'});
   const artifact = required(a['--wasm'], '--wasm');
@@ -32,7 +32,7 @@ main(() => {
       for (const x of requiredValues) if (!actual.includes(x)) failures.push(`Missing ${label}: ${x}`);
     }
     report.structure = failures.length ? 'FAIL' : 'PASS'; report.failures = failures;
-    if (failures.length) { print(report); process.exitCode = 1; return; }
+    if (failures.length) { print(report,a['--out']); process.exitCode = 1; return; }
   }
   if (a['--guard']) {
     const command=a['--wsl']?'wsl':a['--guard'];
@@ -43,6 +43,6 @@ main(() => {
     if(a['--wsl'])report.guard.wsl=a['--wsl'];
     if (report.guard.result !== 'PASS') process.exitCode = 1;
   }
-  print(report);
+  print(report,a['--out']);
   if (report.structure === 'NOT_CONFIGURED' && !process.exitCode) process.exitCode = 2;
 });

@@ -1,0 +1,8 @@
+{
+  "namespace": "7F58CFB36E582A5653E3EBC2C64237E9ED90F5E0084417F087E79C48662FA779",
+  "types": "Invoke",
+  "extraReserveDrops": "10000000",
+  "invoke": {"HookParameters": [{"HookParameter": {"HookParameterName": "73657474696E67", "HookParameterValue": "000000000000002A"}}]},
+  "returnCode": "0",
+  "readback": [{"key": "0000000000000000000000000000000000000000000000000000000000000001", "hex": "01000000000000002A"}]
+}

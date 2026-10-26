@@ -1,8 +1,8 @@
 import {args,jsonFile,main,print} from './lib.mjs';
 import {typeIds,maskFor,validateActivation} from './hookon-lib.mjs';
 main(()=>{
-  const a=args(process.argv.slice(2),['--types','--incoming','--outgoing','--definitions'],['--allow-sethook','--help']);
-  if(a['--help'])return print({usage:'node hookon.mjs --types Payment,Invoke [--definitions server-definitions.json] [--allow-sethook]\nOR --incoming Payment --outgoing Invoke',
+  const a=args(process.argv.slice(2),['--types','--incoming','--outgoing','--definitions','--out'],['--allow-sethook','--help']);
+  if(a['--help'])return print({usage:'node hookon.mjs --types Payment,Invoke [--definitions server-definitions.json] [--allow-sethook] [--out masks.json]\nOR --incoming Payment --outgoing Invoke',
     note:'Use none to disable one direction. Directional output targets HookOnV2_1; confirm amendment support. Bit 22 is active-high.'});
   const definitions=a['--definitions']?jsonFile(a['--definitions']):undefined;
   const def=definitions?.result ?? definitions;
@@ -17,5 +17,5 @@ main(()=>{
   }
   validateActivation(hook);
   print({hook,selected:rows,semantics:'0 enables ordinary transaction types; SetHook bit 22 is enabled by 1.',
-    definitions:a['--definitions']?'caller-supplied server_definitions':'small reviewed convenience map; not the complete transaction catalog'});
+    definitions:a['--definitions']?'caller-supplied server_definitions':'small reviewed convenience map; not the complete transaction catalog'},a['--out']);
 });

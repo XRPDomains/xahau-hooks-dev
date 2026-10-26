@@ -1,5 +1,6 @@
 import fs from 'node:fs';
-import {Client,Wallet,encode} from 'xahau';
+import {Client,encode} from 'xahau';
+import {loadWallet} from './wallet.mjs';
 import {args,required,jsonFile,main,print,hex} from '../../../scripts/lib.mjs';
 import {validateProjectInvoke,assertProjectExecution} from './project-contract.mjs';
 
@@ -19,7 +20,7 @@ main(async()=>{
   const url=new URL(required(config.websocket,'config.websocket'));
   if(!['ws:','wss:'].includes(url.protocol)||url.username||url.password)throw new Error('Explicit WS(S) endpoint without embedded credentials required');
   const seed=process.env.XAHAU_TESTNET_SEED;if(!seed)throw new Error('XAHAU_TESTNET_SEED is required for submission');
-  let wallet;try{wallet=Wallet.fromSeed(seed);}catch{throw new Error('Invalid testnet signer seed');}
+  const wallet=loadWallet(seed,tx.Account);
   if(wallet.classicAddress!==tx.Account)throw new Error('Signer does not match the reviewed transaction account');
   const client=new Client(url.href,{connectionTimeout:6000,timeout:10000});
   const save=record=>fs.writeFileSync(journal,JSON.stringify(record,null,2)+'\n',{flag:'wx'});

@@ -5,8 +5,8 @@ import {fileURLToPath} from 'node:url';
 import {args, main, print} from './lib.mjs';
 import {probe,dependencyReport,npmCommand,readiness} from './doctor-lib.mjs';
 main(() => {
-  const a = args(process.argv.slice(2), ['--image','--wsl','--guard'], ['--docker', '--help']);
-  if (a['--help']) return print({usage:'node doctor.mjs [--docker] [--image explicit-image-reference] [--wsl DISTRO] [--guard FILE]', note:'Local diagnostics only; never installs, pulls, signs or uses RPC. Optional --wsl lists distros and probes g++/cc in that explicitly selected distro. --guard checks file presence only; it does not execute the checker. Exit 0 means report generated, not all capabilities ready.'});
+  const a = args(process.argv.slice(2), ['--image','--wsl','--guard','--out'], ['--docker', '--help']);
+  if (a['--help']) return print({usage:'node doctor.mjs [--docker] [--image explicit-image-reference] [--wsl DISTRO] [--guard FILE] [--out report.json]', note:'Local diagnostics only; never installs, pulls, signs or uses RPC. Optional --wsl lists distros and probes g++/cc in that explicitly selected distro. --guard checks file presence only; it does not execute the checker. Exit 0 means report generated, not all capabilities ready.'});
   if(a['--wsl']&&process.platform!=='win32')throw new Error('--wsl is only supported on Windows');
   if(a['--wsl']?.startsWith('-'))throw new Error('Invalid WSL distribution');
   const tools = {};
@@ -38,6 +38,6 @@ main(() => {
   print({node:process.version, nodeSupported:Number(process.versions.node.split('.')[0]) >= 20,
     platform:process.platform, architecture:process.arch, tools, dependencies,wsl,dockerDaemon,image,
     ...readiness({nodeSupported:Number(process.versions.node.split('.')[0])>=20,platform:process.platform,tools,dependencies,wsl,guardFile}),
-    guardChecker:'Pass --guard to report file presence; use inspect-artifact to execute it on the selected artifact.'});
+    guardChecker:'Pass --guard to report file presence; use inspect-artifact to execute it on the selected artifact.'},a['--out']);
   if (Number(process.versions.node.split('.')[0]) < 20) process.exitCode = 1;
 });

@@ -5,7 +5,8 @@ export function validateProjectInvoke(tx, expectedAccount){
   const allowed=new Set(['TransactionType','Account','Destination','NetworkID','HookParameters']);
   if(!tx||typeof tx!=='object'||Array.isArray(tx)||Object.keys(tx).some(k=>!allowed.has(k)))throw new Error('Unexpected transaction fields; only unsigned project Invoke is supported');
   if(tx.TransactionType!=='Invoke'||tx.NetworkID!==21338)throw new Error('Project reference requires Invoke on testnet 21338');
-  if(!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(tx.Account??'')||!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(expectedAccount??'')||tx.Destination!==expectedAccount)throw new Error('Account or expected hook Destination mismatch');
+  if(!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(tx.Account??'')||!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(expectedAccount??'')||(tx.Destination??tx.Account)!==expectedAccount)throw new Error('Account or expected hook Destination mismatch');
+  if(tx.Destination===tx.Account)throw new Error('Self-Invoke must omit Destination');
   if(!Array.isArray(tx.HookParameters)||tx.HookParameters.length!==3)throw new Error('Expected exactly op, name, value parameters');
   const params=new Map();
   for(const row of tx.HookParameters){

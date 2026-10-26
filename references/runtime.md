@@ -4,6 +4,8 @@
 
 Record the target header signatures for `hook` and, if used, `cbak`. A hook is activated by configured transaction masks/directions and installation context; an arbitrary Invoke is not automatically routed to the intended account or operation. Specify Destination and operation encoding according to the project's protocol and target transaction definitions.
 
+Self-Invoke targets the signing Account's own installation by **omitting Destination**. An Invoke with `Destination === Account` is rejected by the locked Xahau transaction validator; do not translate self calls into explicit equal-address routing. For another installation use a distinct Destination, then verify whether that account's execution is strong/weak under the selected amendments. Trigger masks and a valid Invoke shape alone do not prove the business handler ran.
+
 Handle unrelated transactions intentionally. Do not turn a missing operation into a successful write. For chains, test sender, destination, installed order, namespace and every participating handler.
 
 ## Read each API as a contract

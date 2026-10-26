@@ -10,6 +10,10 @@ __pycache__/
 .env.*
 !.env.example
 *.seed
+testnet-wallet*.json
+*.wallet.json
+*.wallet.json.lock
+testnet-wallet*.json.lock
 *.pem
 .DS_Store
 Thumbs.db

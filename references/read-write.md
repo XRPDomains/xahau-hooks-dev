@@ -39,6 +39,8 @@ Carry a returned marker into the next page unchanged. Verify available response 
 
 ## Write
 
+For **Self-Invoke**, omit `Destination` entirely. Do not set `Destination: Account`, an empty string or null: the locked Xahau codec rejects equal sender/destination addresses. To invoke another account, set its distinct Destination and verify the actual Hook execution/phase. The owner-setting preparer already uses the omitted form. See [Invoke fields](https://xahau.network/docs/protocol-reference/transactions/transaction-types/invoke/).
+
 An operation is a protocol-defined transaction, not a C function name sent to RPC. Determine whether it needs `Invoke`, a funded `Payment`, an asset transaction, or another trigger. Set the routing account and direction so the intended hook executes.
 
 Illustrative unsigned Invoke shape; replace all values and verify target definitions before serializing:
@@ -55,6 +57,8 @@ Illustrative unsigned Invoke shape; replace all values and verify target definit
 ```
 
 The parameter named `op` and value `01` above are demonstration bytes, not a universal Hook convention. For memos, encode MemoType/MemoData exactly once from the protocol bytes. Verify whether payment amounts are native drops or an issued amount; reject partial-payment semantics if incompatible with the operation.
+
+For application-defined Invoke payloads use [submit-generic-invoke.mjs](../assets/examples/deploy/submit-generic-invoke.mjs): it accepts codec-valid HookParameters, Memos or Blob and supports both omitted-Destination self calls and calls to a distinct account. It still requires explicit testnet identity, target account/HookHash, fee cap and a fresh hash journal. It does not accept Payment, raw signed blobs or arbitrary signed transaction JSON. The existing owner-setting signer remains restricted. See [the configurable workflow](agent-workflow.md) for review, submit and readback commands.
 
 Complete Sequence, fees, NetworkID and ledger expiry using an appropriate maintained Xahau transaction library or wallet in the target project. Verify the signed transaction preserves required business fields. Never concatenate a seed into a command, log it, include it in fixtures or commit it. Optional [testnet signing references](../assets/examples/deploy/README.md) are restricted examples; the separate [project submitter](deployment.md#project-submitter-template) demonstrates how to bind a custom operation to a reviewed contract.
 

@@ -4,6 +4,10 @@ For an initial experiment use a fresh throwaway **Xahau testnet** account funded
 
 Generate the wallet through a maintained local library/wallet. Keep its seed outside tracked files and out of shell history, screenshots and logs. Supplying an environment variable is a transport choice, not protection against a compromised local process. Never reuse a mainnet signer for the beginner workflow.
 
+The locked `xahau@4.2.0` defaults seed derivation to ed25519. Use the bundled `loadWallet(seed, expectedAddress)` wrapper for existing seeds; it explicitly selects the encoded family (`sEd…` versus other checksum-valid family seeds), then checks the key-derived address. Do not classify all secp256k1 seeds by `ss` alone or use `masterAddress` to hide a mismatch. Both reference signers now use this wrapper.
+
+For automation prefer a locally generated cached wallet and the documented [POST /accounts faucet](https://xahau.network/docs/features/faucet-and-explorer/) funding that address. The [wallet utility](agent-workflow.md#cached-testnet-wallet-and-funding) caches before requesting, waits for validated `account_info`, and retries only explicit rate rejection within a bounded budget. Cooldowns/ledger latency are observations, not fixed 30/60/5-second guarantees. A lost faucet response remains unknown; keep the address and poll it rather than requesting another wallet or funding blindly.
+
 ## Three different costs
 
 - Transaction Fee is consumed when a transaction is applied according to its engine outcome.

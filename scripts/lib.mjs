@@ -12,7 +12,14 @@ export function args(argv, valued = [], flags = []) {
   }
   return out;
 }
-export const jsonFile = p => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/,''));
+export function jsonFile(p){
+  const bytes=fs.readFileSync(p);let text;
+  if(bytes[0]===0xFF&&bytes[1]===0xFE)text=bytes.subarray(2).toString('utf16le');
+  else if(bytes[0]===0xFE&&bytes[1]===0xFF){const swapped=Buffer.from(bytes.subarray(2));if(swapped.length%2)throw new Error('Invalid UTF-16 JSON file');swapped.swap16();text=swapped.toString('utf16le');}
+  else text=bytes.toString('utf8');
+  return JSON.parse(text.replace(/^\uFEFF/,''));
+}
+export function writeJSON(file,value){fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n',{encoding:'utf8',flag:'wx'});}
 export function required(value, label) {
   if (value === undefined || value === '') throw new Error(`Required: ${label}`);
   return value;
@@ -31,4 +38,4 @@ export function main(fn) {
     process.stderr.write(JSON.stringify({error: error.message}) + '\n'); process.exitCode = 1;
   });
 }
-export const print = x => process.stdout.write(JSON.stringify(x, null, 2) + '\n');
+export const print = (x,out) => {if(out)writeJSON(out,x);process.stdout.write(JSON.stringify(x,null,2)+'\n');};

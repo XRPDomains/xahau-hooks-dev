@@ -4,8 +4,8 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {args, main, print} from './lib.mjs';
 main(() => {
-  const a=args(process.argv.slice(2),[],['--help']);
-  if(a['--help'])return print({usage:'node validate-package.mjs',note:'Checks local Markdown links and JavaScript syntax. Does not replace skill frontmatter or behavioral validation.'});
+  const a=args(process.argv.slice(2),['--out'],['--help']);
+  if(a['--help'])return print({usage:'node validate-package.mjs [--out report.json]',note:'Checks local Markdown links and JavaScript syntax. Does not replace skill frontmatter or behavioral validation.'});
   const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
   const excluded=new Set(['.git','node_modules','build','dist','coverage','__pycache__']);
   function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).filter(e=>!e.isSymbolicLink()&&!excluded.has(e.name)).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
@@ -27,6 +27,6 @@ main(() => {
       if(r.error || r.status!==0)errors.push(`Syntax check failed: ${file}: ${r.stderr ?? r.error?.message}`);
     }
   }
-  print({files:files.length,localLinks:links,javascriptModules:modules,result:errors.length?'FAIL':'PASS',errors});
+  print({files:files.length,localLinks:links,javascriptModules:modules,result:errors.length?'FAIL':'PASS',errors},a['--out']);
   if(errors.length)process.exitCode=1;
 });

@@ -26,7 +26,7 @@ Docker is optional for this route. [Toolchain setup](references/toolchain-setup.
 ```sh
 node assets/toolchain/compile.mjs --source assets/examples/owner-setting.c --out build/owner-setting
 node scripts/setup-guard.mjs --out build/guard
-node scripts/inspect-artifact.mjs --wasm build/owner-setting/hook.cleaned.wasm --policy assets/owner-setting-artifact-policy.json --guard build/guard/guard_checker > build/inspection.json
+node scripts/inspect-artifact.mjs --wasm build/owner-setting/hook.cleaned.wasm --policy assets/owner-setting-artifact-policy.json --guard build/guard/guard_checker --out build/inspection.json
 node -e "const fs=require('node:fs');const r=JSON.parse(fs.readFileSync('build/inspection.json','utf8'));if(r.structure!=='PASS'||r.guard.result!=='PASS')process.exit(1);console.log('Artifact and guard PASS',r.bytes,r.sha256)"
 ```
 
@@ -35,6 +35,8 @@ Stop on a nonzero exit or FAIL. The selected checker is pinned; compare its rule
 ## 3. Configure and fund the disposable wallet
 
 Create a testnet wallet with a maintained local wallet/library, retain its seed privately, and fund its address through the [faucet](https://xahau-test.net/). Use a fresh account without installed hooks. Do not use a production account or seed. Read [funding, fees and reserve](references/funding-and-fees.md).
+
+Alternatively follow the [cached wallet workflow](references/agent-workflow.md#cached-testnet-wallet-and-funding): it creates a local throwaway wallet, requests funding of its address only when explicitly requested, honors bounded faucet cooldown and waits for validated account existence. Reuse the cache after a timeout rather than generating another wallet. When importing an existing seed, use `loadWallet(seed, expectedAddress)` from `assets/examples/deploy/wallet.mjs`: the locked library's default is ed25519, while a secp256k1 seed needs the explicit algorithm. A secp256k1 seed need not start with `ss`; the wrapper validates its seed and derived address.
 
 Set public values in this terminal (replace the address):
 
