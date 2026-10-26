@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/XRPLWin/xahau-hooks-abi-skill",
+  "revision": "9e0eed4830535ed6b288820fb6aa116e0fd9844e",
+  "license": "MIT, Copyright (c) 2026 XRPLWin",
+  "hashFormat": "SHA-256 of UTF-8 source with CRLF normalized to LF",
+  "files": {
+    "LICENSE": "0f3d965df8dbdd006a1bae99573b2ba6f5c7383712859223b030835c0de9d39f",
+    "scripts/package.json": "ed645df135f2ac2d7d47b783d055da1f13a55c6dc6ebb2bb70d17f74362d43b9",
+    "scripts/package-lock.json": "1ca0937986a47fc176cb06829b23de48dc9feaf9414eee984d9ab7a59296a180",
+    "scripts/lib/io.js": "dbcea11363dfe646f499b868656fae7df701a214bab288e8feb02e50fedf946f",
+    "scripts/lib/parser.js": "bc3326ff572f5520ba35c90e37d86a0038ce42945072607af68779b9576a0e3d",
+    "scripts/lib/manifest.js": "284bb278ef6c74c3e3498d922ec2bd74c3e0b61f2ac55378e40f67067692b908",
+    "scripts/lib/xfl.js": "df5fd6d52a1700994f78f07c49c01dc0ebb98b4e84a9691d9b36c0aa2418a0af"
+  }
+}

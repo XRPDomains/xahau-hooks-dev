@@ -1,8 +1,8 @@
 ---
 name: xahau-hooks-dev
-description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads and transaction-based writes. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
+description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads, transaction-based writes, and optional explorer ABI/manifest preparation. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Xahau Hooks development
@@ -46,6 +46,7 @@ Read only relevant references:
 | First-run failure symptoms | [First-run errors](references/first-run-errors.md) |
 | Audit, regression, fault injection, error investigation | [Testing and debugging](references/testing.md) |
 | Offline WASM fixtures, schema codecs, generated unsigned Invoke, guard diagnostics | [Offline framework](references/offline-framework.md) |
+| Explorer-readable HookState ABI/manifest, exact-once projections and publication handoff | [Optional explorer ABI](references/explorer-abi.md) |
 | Runtime-pinned emitted Payment, callback, confirmed-failure retry | [Auto-forward walkthrough](references/auto-forward.md) |
 
 For a beginner, start with C essentials and the minimal examples in [examples](assets/examples/README.md). Explain the relevant C concept alongside each fix; avoid an unrelated C course.
@@ -69,6 +70,7 @@ Node.js 20+; core scripts have no third-party dependencies. The optional compile
 - `scripts/mock-hook.mjs`: worker-isolated offline WASM fixtures with bounded memory, timeout, state overlay, guards and fault injection. Unsupported imports fail; prepare/emit are explicit fixture adapters, callback tests do not simulate native weak semantics.
 - `scripts/generate-client.mjs`: package-specific schema v1 -> standalone byte codec and unsigned Invoke builder. No RPC/signing; independently verify schema against C, version and production artifact hash. This narrow helper does not extend scope to application SDK development.
 - `scripts/profile-guards.mjs`: source budgets/lines, input-specific mock visits and optional real checker totals. No exact per-loop instruction cost or automatic guard reduction.
+- `scripts/export-explorer-abi.mjs`: export supported fixed state layouts from our interface schema to optional XahauWin projections/manifest drafts. `scripts/check-explorer-abi.mjs` uses a separately installed pinned upstream decoder to check exact-once coverage and expected values. Inventory all state writers/namespaces, verify endian/padding and actual HookHash, and keep synthetic/offline/published evidence separate; no automatic publication.
 - `scripts/init-project.mjs`: create a new project source layout from the teaching example and contract template; refuse an existing destination. Does not install tools or create a deployment.
 - `scripts/inspect-artifact.mjs`: WASM structure, exact imports/exports policy, byte budget, SHA-256; optionally execute a supplied guard checker without a shell. Does not implement a replacement guard checker.
 - `scripts/decode-state.mjs`: validate a fixed binary layout and decode bytes/BE unsigned integers. Does not discover unknown state keys or verify project C layouts automatically.

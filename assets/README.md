@@ -1,5 +1,7 @@
 # Configuration and templates
 
+`explorer-abi/` contains original contact-book metadata/projections and explicitly synthetic coverage vectors. `explorer-abi-upstream.json` pins the separately obtained XRPLWin decoder/validator checkout; no upstream source or npm dependencies are bundled. See [optional explorer ABI integration](../references/explorer-abi.md) for generation, actual decoder checks and publication boundaries.
+
 `contact-book.interface.json` and `contact-book.mock.json` pair with the C example and its artifact policy; see [offline framework](../references/offline-framework.md). `auto-forward-artifact-policy.json` and `auto-forward-evidence.json` pair with the runtime-pinned [emit/callback walkthrough](../references/auto-forward.md). Evidence labels distinguish mocks, production guard validation and standalone ledger execution.
 
 `minimal-artifact-policy.json` is deliberately narrow: only the minimal pass-through Hook's imports/exports, with a conservative example byte budget. The budget is not a universal network limit. Add reviewed APIs only when the project uses them and the selected validator supports them. Policies require `maxBytes`, `allowedImports`, `requiredImports`, `allowedExports`, and `requiredExports`. Symbols include kind, e.g. `env.accept:function`.

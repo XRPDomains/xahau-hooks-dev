@@ -1,0 +1,9 @@
+{
+  "name": "Contact book (teaching example)",
+  "description": "Owner-only exact-byte contact names mapped to an AccountID.",
+  "readme": "## Trigger\nOwner self-Invoke, Destination omitted. Parameters: op=01, name=1..28 non-NUL UTF-8 bytes for generated clients, addr=20 raw AccountID bytes. C treats name bytes as opaque; no Unicode normalization.\n\n## State\nThe installation namespace stores keys CTCT + name + right zero padding to 32 bytes. Data is version 01 followed by the 20-byte AccountID. The explorer key column keeps NUL padding, including CSV exports. This ABI describes state only; it does not sign Invoke or establish ownership.\n\n## Verification\nUse check.json synthetic fixtures and inspect decoded values; test every real record kind and the full installed namespace inventory before publishing for the actual HookHash.",
+  "repo": "https://github.com/XRPDomains/xahau-hooks-dev",
+  "license": "MIT",
+  "publishers": [],
+  "namespaces": {}
+}

@@ -2,6 +2,8 @@
 
 Use the [offline framework](offline-framework.md) for shared WASM fixtures, schema/client vectors and guard observations. The [auto-forward probe](auto-forward.md) adds an explicitly started disposable standalone node test for real emission/callback/recovery. Default regression tests do not start a node, download one, or submit to a public ledger.
 
+The [optional explorer ABI tests](explorer-abi.md) include four dependency-free export tests plus an integration group enabled only by `XAHAU_ABI_UPSTREAM`. That group uses a pinned external decoder to catch uncovered/overlapping records, unused projections, endian-value mismatches, cross-hook namespace fallback and short-key/AccountID collisions. A local coverage PASS is not proof of complete on-ledger inventory or successful explorer publication.
+
 ## Evidence levels
 
 For an initial source pass, run `node scripts/lint-source.mjs --source hook/src/hook.c`. JSON findings include file, line and rule. Exit codes: `0` = no heuristic findings, `1` = review findings, `2` = invalid input. It reports obvious discarded Hook API calls, direct unsigned declaration/cast of API results, and loops lacking a recognized `_g`, `GUARD` or `XH_GUARD` in their header/first body statement.

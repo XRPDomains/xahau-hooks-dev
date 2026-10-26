@@ -1,6 +1,13 @@
-# Verification: 1.5.0
+# Verification: 1.6.0
 
-Date: 2026-10-26. These are package verification results, not a live deployment certification. Historical 1.1.0 evidence is retained below with its original scope.
+Date: 2026-10-27. These are package verification results, not a live deployment certification. Historical release evidence is retained below with its original scope.
+
+## 1.6.0 optional explorer ABI integration — 2026-10-27
+
+- Reviewed XRPLWin's ABI skill at `9e0eed4830535ed6b288820fb6aa116e0fd9844e` and its MIT license. Added original optional schema-export/check orchestration, with the upstream parser/validator kept in a separate checkout and hash-pinned before import. Core dependencies and submission behavior are unchanged; package version is 1.6.0.
+- **82/82 Node tests PASS, zero skips** with `XAHAU_ABI_UPSTREAM` pointing at that prepared checkout. Four core export groups plus the optional integration group/nine subgroups cover key/version/BE/amount distinctions, unsupported-layout rejection, exclusive output, actual account decoding, overlaps/uncovered/unused projections, namespace fallback, expected-value checks, short-key/AccountID collisions, snapshot metadata, worker deadline and modified-parser rejection. Without the optional checkout, that integration group reports SKIP rather than downloading dependencies.
+- Contact-book export from the existing production artifact binds SHA-256 `c2afadd11f7bcecf2c7088c89bf88a4844e00f87b9460a5f86ca2257e8e8b465` separately from calculated HookHash `D1DB5C6BB5393AB2E311271C635FD861264E98B7302C13288F7D35283E8ABD8E`. Its bare ABI and full manifest passed the pinned upstream local validator. Two explicitly synthetic source-layout vectors and a separately supplied saved mocked-WASM state record each passed coverage with correct decoded values. The latter is a file input, not live state evidence.
+- Local reports remain under ignored `build/contact-explorer/` and `build/contact-explorer-manifest/`. No public state dump, node installation/HookHash verification, explorer sign-in, upload or published-page comparison was performed: **NOT_RUN**. Package syntax/local links, skill frontmatter and whitespace checks passed. See [explorer ABI integration](references/explorer-abi.md) for reproducible commands and attribution.
 
 ## 1.5.0 combined framework work and test robustness
 

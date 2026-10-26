@@ -1,0 +1,33 @@
+{
+  "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+  "evidence": "SYNTHETIC_ONLY; namespace is a fixture value, not a claimed installation",
+  "hooks": [
+    {
+      "hash": "D1DB5C6BB5393AB2E311271C635FD861264E98B7302C13288F7D35283E8ABD8E",
+      "namespace": "ABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABAB",
+      "manifest": "contact-book.abi.json"
+    }
+  ],
+  "extra": {
+    "ABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABAB": [
+      {
+        "k": "43544354616C6963650000000000000000000000000000000000000000000000",
+        "v": "01B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+        "note": "Synthetic vector from contact-book.c; no installed account/namespace is claimed.",
+        "expect": {
+          "key.name": "alice\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+          "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"
+        }
+      },
+      {
+        "k": "435443546162636465666768696A6B6C6D6E6F70717273747576777831323334",
+        "v": "01B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+        "note": "Synthetic vector from contact-book.c; no installed account/namespace is claimed.",
+        "expect": {
+          "key.name": "abcdefghijklmnopqrstuvwx1234",
+          "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"
+        }
+      }
+    ]
+  }
+}

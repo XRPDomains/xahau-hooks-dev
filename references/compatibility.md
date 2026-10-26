@@ -17,9 +17,11 @@ Primary entry points:
 - [Compiling Hooks](https://xrpl-hooks.readme.io/v2.0/docs/compiling-hooks)
 - [Node hook_validate API](https://xahau.network/docs/features/http-websocket-apis/hook-validate/)
 - [Xahau node source](https://github.com/Xahau/xahaud)
-- [XahauWin explorer ABI skill](https://github.com/XRPLWin/xahau-hooks-abi-skill) (optional, explorer-specific; not bundled or required)
+- [XahauWin explorer ABI skill](https://github.com/XRPLWin/xahau-hooks-abi-skill) (optional, explorer-specific; [adapter and pinned decoder checks](explorer-abi.md), upstream checkout not bundled or required for core tasks)
 
 Older XRPL Hooks pages can describe an older API. Record applicable node/header versions before borrowing a signature, error constant, limit or serialization example. API additions such as transaction preparation may be amendment-dependent. Testnet and mainnet can differ.
+
+Explorer ABI integration was reviewed on 2026-10-27 at upstream revision `9e0eed4830535ed6b288820fb6aa116e0fd9844e`; its decoder/validator source hashes and dependency lock are separately pinned. This is compatibility with that local tool revision, not a claim about a currently deployed explorer server or a network ABI standard.
 
 ## Per-project compatibility record
 

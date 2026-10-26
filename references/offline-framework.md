@@ -62,6 +62,8 @@ Keys: `fixed` hex32; `prefix-text` prefix bytes + named nonempty non-NUL UTF-8 f
 
 ## Guard diagnostics
 
+For readable explorer tables, use the separate [explorer ABI adapter](explorer-abi.md). It exports the supported fixed state subset, retaining explicit BE and exact key bytes, and tests projections with the pinned upstream decoder. It does not replace this schema's Invoke/state codec or convert every dynamic layout automatically.
+
 `profile-guards.mjs` lists literal source `_g(id,budget)` calls with lines and optional maximum observed visits from mock cases. Source scanning does not expand macros or evaluate constant expressions; unresolved calls are reported. Use unique guard IDs so source/fixture correlation is unambiguous. Observations must match the supplied production WASM hash when both inputs are supplied. C/source correspondence itself requires the build manifest.
 
 With `--wasm --policy --guard`, it runs the real checker and records its binary hash, artifact hash and total counts per reported entry, including callback when present. `--baseline profile.json` compares totals only when checker hash and entry count match; review compiler versions/entry order before interpreting deltas. There is no exact per-loop instruction attribution or automatic optimization. Low observed visits do not justify reducing a worst-case guard budget. Always rebuild and check the original final WASM after changes.

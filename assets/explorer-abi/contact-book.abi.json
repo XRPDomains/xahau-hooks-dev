@@ -1,0 +1,34 @@
+[
+  {
+    "name": "contact",
+    "description": "State layout contact; review against the exact Hook C build.",
+    "selector": [
+      {
+        "type": "Blob",
+        "label": "key.prefix",
+        "byteLength": 4,
+        "pattern": "43544354",
+        "patternEncoding": "hex",
+        "exclude": true
+      },
+      {
+        "type": "VarString",
+        "label": "key.name",
+        "byteLength": 28
+      }
+    ],
+    "data": [
+      {
+        "type": "UInt8",
+        "label": "version",
+        "pattern": "1",
+        "patternEncoding": "ascii",
+        "exclude": true
+      },
+      {
+        "type": "AccountID",
+        "label": "account"
+      }
+    ]
+  }
+]
