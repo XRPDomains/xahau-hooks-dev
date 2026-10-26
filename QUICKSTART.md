@@ -4,6 +4,8 @@ This is the shortest reference path for a new developer. It uses a fresh **testn
 
 Commands below use a POSIX shell on Linux or inside Windows WSL. Prerequisites: Node.js 20+, npm, Git, `g++` (Linux/WSL checker), and an independently funded disposable testnet wallet. The npm compiler can also run on Windows/macOS; use a compatible Linux/WSL environment for this checker's verified route. See [toolchain setup](references/toolchain-setup.md).
 
+If any prerequisite is missing, start with [environment setup](references/environment-setup.md), including the bootstrap path when Node itself is absent. Doctor reports task readiness separately: missing optional Docker/native clang does not block the npm compiler route. A timeout during a probe means unconfirmed, not necessarily uninstalled.
+
 ## 1. Get the skill and inspect the environment
 
 Skip cloning if you already have the repository:

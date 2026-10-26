@@ -8,8 +8,13 @@ These are original teaching sources, not a production application. The [optional
 | `owner-setting.c` | Self-authorized Invoke, exact binary parameter, checked state write | npm production build and guard-check passed; runtime/node integration remains required |
 | `safe-bytes.h` | Bounded hex/decimal parsing, BE encoding | Portable host tests; guard adapter/budgets must be integrated for production |
 | `safe-bytes.test.c` | Independent boundaries, malformed input and sentinel checks | Host-native execution when a C compiler is available |
+| `uritoken-issuer.c` | Issuer-originating mint URI and flag policy | npm build/production guard-check; mocked host policy tests; live install/mint NOT_RUN |
+| `issued-token-issuer.c` | Outgoing TST asset identity and per-Payment XFL limit | npm build/production guard-check; mocked host policy tests; live issuance/transfer NOT_RUN |
+| `variable-state.h`, `variable-state.mjs`, `variable-state.test.c` | Variable-length byte codec and key derivation | Native/JS fixture tests; not a guarded production Hook helper |
 
 See [quickstart](../../QUICKSTART.md) for the complete testnet reference path and [optional transaction examples](deploy/README.md) for its deliberate restrictions.
+
+For issuer examples, use the [URIToken and issued-currency walkthrough](../../references/issuer-examples.md). It includes unsigned codec-checked plans, negative cases, owner/trust-line readback and saved-evidence assertions. These do not implement emitted mint/issuance workflows or extend the beginner signers to asset transactions.
 
 ## Host helper test
 

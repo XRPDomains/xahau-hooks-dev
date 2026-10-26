@@ -1,10 +1,12 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.1.0**.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.2.0**.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
 
 **New to Hooks? Start with [QUICKSTART.md](QUICKSTART.md)**: install the optional compiler, build and guard-check a small hook, prepare a testnet install, explicitly sign/submit, write a setting and read its state back. Optional examples are restricted to a fresh testnet installation; they never automatically deploy an existing project.
+
+If the machine lacks Node/npm, compiler dependencies or a checker, start with [environment setup](references/environment-setup.md). For NFT and issued-currency issuers, use the [issuer examples](references/issuer-examples.md): small C policy Hooks, offline transaction plans, negative cases and validated readback. Live issuance and asset transfers require project-specific verification.
 
 ## Installation
 
@@ -160,7 +162,7 @@ node scripts/inspect-artifact.mjs --wasm /path/to/final.wasm --policy /path/to/p
 node scripts/decode-state.mjs --layout assets/state-layout.example.json --hex 01000000000000002A
 node scripts/read-state.mjs --config /path/to/network.json --account rAddress --namespace HEX64 --out snapshot.json
 node scripts/summarize-tx.mjs --file /path/to/tx-response.json
-node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs tests/usability.test.mjs
+node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs tests/usability.test.mjs tests/environment.test.mjs tests/issuer-examples.test.mjs
 node scripts/validate-package.mjs
 ```
 
@@ -175,13 +177,13 @@ node scripts/validate-package.mjs
 
 The external guard checker must be executable in Node's operating environment, or use the explicit Windows `--wsl DISTRO` adapter for a Linux checker. No arbitrary shell commands are passed. The success marker matches the reviewed checker family; a different checker output format needs an explicit reviewed adapter, not a false PASS. Import/export inspection checks names and kinds, not function signatures; the production validator remains required.
 
-See [asset formats](assets/README.md) for configuration details. Tool tests use local fixtures and a mock HTTP server, never a live network. The optional codec/signer tests report SKIP when their npm dependencies are absent; install that directory's lock to exercise them.
+See [asset formats](assets/README.md) for configuration details. Tool tests use local fixtures and mock HTTP/WebSocket servers, never a live network. Optional codec/signer/issuer tests report SKIP when their npm dependencies are absent; install the relevant lock to exercise them. Issuer WASM probes also require the optional npm compiler, build fresh production artifacts and instrument only test copies for memory access; guard validation is a separate command.
 
 ## Evidence and compatibility
 
 Use [the report template](assets/report-template.md). Keep compilation, static guard validation, native tests, mocked probes, node validation, live transactions, and recovery tests separate. Unavailable tools or untested phases remain **NOT_RUN**, not PASS.
 
-This release's core tools, portable C helpers and the optional npm builds of both small Hook examples are locally verified, including production guard validation. They remain teaching examples, not independently network-certified contracts. The optional signer was not exercised with live transactions; Docker and target-node validation are separate evidence stages. No complete emitted-transaction serializer or callback implementation is shipped.
+This release has 46 locally passing Node tests. Its four small Hook examples have npm build and production guard evidence; the issuer examples also have mocked WASM policy tests and offline transaction/readback fixtures. They remain teaching examples, not independently network-certified contracts. The optional signer was not exercised with live transactions; Docker and target-node validation are separate evidence stages. No complete emitted-transaction serializer or callback implementation is shipped.
 
 See [release verification](VERIFICATION.md) for the actual checks and untested stages of this release.
 

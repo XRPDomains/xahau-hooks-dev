@@ -1,8 +1,21 @@
-# Verification: 1.1.0
+# Verification: 1.2.0
 
-Date: 2026-10-25. These are package verification results, not a live deployment certification.
+Date: 2026-10-26. These are package verification results, not a live deployment certification. Historical 1.1.0 evidence is retained below with its original scope.
 
-## Unreleased usability and source-review updates
+## 1.2.0 environment and issuer updates — 2026-10-26
+
+- **46/46 Node tests PASS, zero skips** across the six documented test files. The ten new groups cover missing/wrong dependency metadata, command failures versus timeouts, Windows npm entrypoint discovery, per-task readiness, real offline Xahau codec plans, saved receipt/readback failures, local WebSocket ledger pinning/pagination/network mismatch, CLI boundaries, and compiled issuer WASM policy branches with mocked hosts.
+- `doctor --wsl Ubuntu --guard build/guard/guard_checker` ran on Windows Node 22.17.0/npm 10.9.2 and observed Ubuntu GCC 13.3.0. No packages were installed by doctor. A cold WSL probe initially timed out; diagnostics now retain TIMED_OUT separately from NOT_FOUND, and the explicit recheck observed the installed compiler. Guard file presence remains NOT_RUN for artifact validation.
+- Both original cleaned issuer artifacts passed their dedicated import/export policies and the same pinned production checker/WSL route as the 1.1.0 baseline. Compiler locks/header versions are unchanged. The test-only memory-export variants were used only for mocked probes, never as production guard evidence.
+
+| New example | Cleaned bytes | Artifact SHA-256 | Checker worst-case instructions |
+|---|---:|---|---:|
+| URIToken issuer mint policy | 735 | `26643349c46eff4939fc18a94b256e1ad3b6198049675708f4ec5c81f3736d10` | 949 |
+| Issued TST Payment policy | 984 | `09939b7c7ddedb7fa2f72e03c8f2cfba8319a002e9a7d2d351e433708e2beba5` | 1644 |
+
+The mocked XFL hosts exercise integer sample values and API-error branches; they do not validate the native node's decimal/XFL implementation. WebSocket tests use a local mock server, not testnet. Actual fresh-machine OS installation, Docker build/run, target-node acceptance, issuer SetHook, mint/buy/burn, trust lines, issue/transfer/redemption, stakeholder routing and emitted failure recovery remain **NOT_RUN**. No seed read, transaction signing/submission or release ZIP was performed. New package syntax/links and skill frontmatter were also validated locally.
+
+## Included usability and source-review updates — 2026-10-25
 
 These changes respond to a skill-using agent reporting an actual build -> guard -> install -> register -> read -> resolve workflow. That report is operational feedback relayed by the user, separate from the local regression evidence below; its live transactions have not been independently retrieved.
 
@@ -15,7 +28,9 @@ Verified locally on 2026-10-25, after the 1.1.0 baseline below:
 - Source lint is a lexical heuristic with documented false positives/negatives. It does not close every source-audit obligation and is not a replacement for compiler analysis, manual review or production guard checking.
 - The skill-using agent's 1112-instruction/on-chain fee observation is documented as agent-reported evidence, with the fee relationship checked against official documentation. No transaction hash was supplied for independent retrieval.
 
-No versioned release archive is rebuilt by these source changes.
+The 1.2.0 version applies to the source and installed skill. No versioned ZIP was rebuilt.
+
+## Historical 1.1.0 baseline — 2026-10-25
 
 | Check | Result | Evidence/boundary |
 |---|---|---|

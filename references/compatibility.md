@@ -2,6 +2,8 @@
 
 Documentation reviewed for this package: 2026-10-25. This date is not a promise that every published page describes every deployed node. Resolve the actual target first.
 
+Environment bootstrap and issuer examples were checked against their linked official Node/WSL/Xahau documentation on 2026-10-26. Issuer stakeholder activation remains target-amendment dependent; the examples constrain issuer-originating transactions and do not assert universal issuer veto rights.
+
 ## Source order
 
 Use the project's authoritative protocol for application semantics; target network amendments and pinned node/header code for runtime behavior; compiler/cleaner/checker versions for artifact behavior; and controlled execution for observed results. Investigate disagreements instead of silently choosing a convenient source.

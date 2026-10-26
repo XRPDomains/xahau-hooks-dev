@@ -17,6 +17,10 @@ On timeout, the journal may remain `SIGNED_BEFORE_SUBMIT` even though submission
 
 These examples are reviewed and offline-tested, but this release did not submit transactions. Verify the target node/API and run a controlled testnet trial before using a signing example operationally.
 
+## Issuer examples
+
+`prepare-issuer.mjs` creates unsigned URIToken or issued-TST teaching plans, with codec validation and explicit postconditions. `read-issuer-state.mjs` reads the expected token object or TST trust line on testnet at a pinned validated ledger. `verify-issuer.mjs` asserts a saved transaction result and readback against the fixed plan contract. These tools never sign or submit; they do not widen either submitter's accepted transaction types. Follow the [issuer walkthrough](../../../references/issuer-examples.md) for Hook sources, branches and verification boundaries.
+
 ## Module resolution
 
 ES modules resolve `import 'xahau'` relative to the importing script, not the terminal cwd. Bundled scripts work from other directories when script/config paths are correct. `node -e 'import("xahau")'` resolves from cwd instead: run that inline probe inside `assets/examples/deploy` after installing its lock. For a project-owned script install `xahau` in that project. Moving a reference script alone breaks its relative imports to the skill's helpers; update those imports or retain the folder structure.

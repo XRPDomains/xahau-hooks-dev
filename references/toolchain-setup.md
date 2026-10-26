@@ -2,6 +2,8 @@
 
 Use this when a project has C source but no working build. The optional reference path below is now included; no global compiler installation is required for its npm build. It does not replace the target network validator.
 
+For a machine without Node/npm, missing packages, blocked downloads or insufficient system privileges, first follow [environment setup](environment-setup.md). It maps each missing capability to a local route, an install/check command and useful work that can continue. Do not install every native tool reported absent by doctor.
+
 ## What each component does
 
 | Stage | Role | Included reference |

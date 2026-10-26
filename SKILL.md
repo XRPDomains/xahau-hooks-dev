@@ -2,7 +2,7 @@
 name: xahau-hooks-dev
 description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads and transaction-based writes. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Xahau Hooks development
@@ -23,6 +23,7 @@ Read only relevant references:
 |---|---|
 | New project, operations, authorization, state machine | [Architecture](references/architecture.md) |
 | First working build/install/write/readback | [Quickstart](QUICKSTART.md) |
+| No Node/npm, missing dependencies, restricted/offline machine | [Environment setup](references/environment-setup.md) |
 | Missing compiler/cleaner/checker; npm, Docker or WSL setup | [Toolchain setup](references/toolchain-setup.md) |
 | C beginner, pointer/length, overflow, byte handling | [C essentials](references/c-essentials.md) |
 | Hook API return values, invocation, accept/rollback, slots | [Runtime and API contracts](references/runtime.md) |
@@ -33,6 +34,7 @@ Read only relevant references:
 | SetHook, bootstrap, smoke, state-preserving upgrade | [Deployment](references/deployment.md) |
 | Activation masks and directional fields | [HookOn](references/hookon.md) |
 | Testnet funding, fee quotes, reserve, mainnet boundaries | [Funding and fees](references/funding-and-fees.md) |
+| NFT/URIToken or issued-currency issuer policy and readback | [Issuer examples](references/issuer-examples.md) |
 | First-run failure symptoms | [First-run errors](references/first-run-errors.md) |
 | Audit, regression, fault injection, error investigation | [Testing and debugging](references/testing.md) |
 
@@ -52,7 +54,7 @@ For a beginner, start with C essentials and the minimal examples in [examples](a
 
 Node.js 20+; core scripts have no third-party dependencies. The optional compiler and signing/WebSocket references have separate pinned npm locks; install them only for those tasks. Run commands with `--help` after installing a reference's required dependencies.
 
-- `scripts/doctor.mjs`: report local runtimes; Docker daemon check only with `--docker`.
+- `scripts/doctor.mjs`: report npm, local compilers, exact optional dependency metadata and per-task readiness; WSL probes only with `--wsl DISTRO`, Docker daemon only with `--docker`. A report is not build/validation evidence. Follow [environment setup](references/environment-setup.md) for missing tools.
 - `scripts/lint-source.mjs`: lexical C review hints for discarded API results, direct unsigned API conversions and loops without recognized local guards. No preprocessing, type or control-flow proof; no findings is not an audit PASS. See [testing](references/testing.md).
 - `scripts/init-project.mjs`: create a new project source layout from the teaching example and contract template; refuse an existing destination. Does not install tools or create a deployment.
 - `scripts/inspect-artifact.mjs`: WASM structure, exact imports/exports policy, byte budget, SHA-256; optionally execute a supplied guard checker without a shell. Does not implement a replacement guard checker.
