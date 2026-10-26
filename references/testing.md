@@ -2,6 +2,20 @@
 
 ## Evidence levels
 
+For an initial source pass, run `node scripts/lint-source.mjs --source hook/src/hook.c`. JSON findings include file, line and rule. Exit codes: `0` = no heuristic findings, `1` = review findings, `2` = invalid input. It reports obvious discarded Hook API calls, direct unsigned declaration/cast of API results, and loops lacking a recognized `_g`, `GUARD` or `XH_GUARD` in their header/first body statement.
+
+This is a lexical hint tool, not C analysis or enforcement of every invariant. Comments/strings are masked; macros/includes/conditional compilation are not expanded. It cannot prove that an assigned signed result is later checked, infer unsigned types through typedefs/reassignments, detect all discarded calls, validate guard budgets/placement in compiled WASM, or prove authorization, rollback and recovery. Custom guard macros and do/while tails can produce false positives; disabled code can be flagged. Review findings in context and record the reason for dismissing them. `NO_FINDINGS` never means audit PASS; retain manual source review, native tests and production artifact validation.
+
+The [native variable-state test](../assets/examples/variable-state.test.c) is a starting point for round-trip and key-derivation regression coverage. From the skill root on Linux/WSL:
+
+```sh
+cc -std=c11 -Wall -Wextra -Werror -pedantic -fsanitize=address,undefined assets/examples/variable-state.test.c -o /tmp/xh-variable-state-test
+/tmp/xh-variable-state-test
+node --input-type=module -e 'import {labelKey,encodeText} from "./assets/examples/variable-state.mjs"; console.log(labelKey("abc").toString("hex")); console.log(encodeText("https://example.com").toString("hex"));'
+```
+
+The final two commands must produce the same two hex lines; the native executable also asserts lengths 1..200, bounds, malformed states and sentinel preservation. Replace the schema/fixtures for your application. This C example is a native codec, with unguarded loops and libc calls; do not copy it into a production Hook without target-specific adaptation and artifact validation.
+
 | Level | Proves | Does not prove |
 |---|---|---|
 | Source review | Identified invariants and plausible defects | Actual runtime behavior |

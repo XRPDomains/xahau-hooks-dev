@@ -6,6 +6,21 @@ Hooks do not expose EVM-style arbitrary readonly function calls. Read documented
 
 The bundled `read-state.mjs` uses HTTP JSON-RPC and an explicit config. It verifies `server_info.info.network_id`, obtains a validated ledger hash, then paginates `account_namespace` at that hash. It has a per-request timeout, total page limit and repeated-marker check. It does not enumerate every namespace or discover the correct account/namespace for a project.
 
+`--config` means a local JSON file, never a URL. For example, save `rpc.json`:
+
+```json
+{"endpoint":"https://xahau-test.net","networkId":21338,"timeoutMs":15000,"maxPages":100}
+```
+
+From the skill root use one of these alternatives, replacing account/namespace with your public values:
+
+```sh
+node scripts/read-state.mjs --config rpc.json --account rAddress --namespace HEX64
+node scripts/read-state.mjs --endpoint https://xahau-test.net --network-id 21338 --account rAddress --namespace HEX64
+```
+
+Do not combine the two forms. Both verify NetworkID before reading state. For WS(S), use `assets/examples/deploy/read-state-websocket.mjs` with a JSON file containing `websocket` and `networkId`; a transport URL alone is not its `--config` either.
+
 Equivalent illustrative request body, after obtaining a validated hash:
 
 ```json
@@ -41,7 +56,7 @@ Illustrative unsigned Invoke shape; replace all values and verify target definit
 
 The parameter named `op` and value `01` above are demonstration bytes, not a universal Hook convention. For memos, encode MemoType/MemoData exactly once from the protocol bytes. Verify whether payment amounts are native drops or an issued amount; reject partial-payment semantics if incompatible with the operation.
 
-Complete Sequence, fees, NetworkID and ledger expiry using an appropriate maintained Xahau transaction library or wallet in the target project. Verify the signed transaction preserves required business fields. Never concatenate a seed into a command, log it, include it in fixtures or commit it. The skill deliberately does not ship signing code.
+Complete Sequence, fees, NetworkID and ledger expiry using an appropriate maintained Xahau transaction library or wallet in the target project. Verify the signed transaction preserves required business fields. Never concatenate a seed into a command, log it, include it in fixtures or commit it. Optional [testnet signing references](../assets/examples/deploy/README.md) are restricted examples; the separate [project submitter](deployment.md#project-submitter-template) demonstrates how to bind a custom operation to a reviewed contract.
 
 ## Outcome and recovery
 

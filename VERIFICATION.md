@@ -2,6 +2,21 @@
 
 Date: 2026-10-25. These are package verification results, not a live deployment certification.
 
+## Unreleased usability and source-review updates
+
+These changes respond to a skill-using agent reporting an actual build -> guard -> install -> register -> read -> resolve workflow. That report is operational feedback relayed by the user, separate from the local regression evidence below; its live transactions have not been independently retrieved.
+
+Verified locally on 2026-10-25, after the 1.1.0 baseline below:
+
+- **36/36 Node tests PASS, zero skips**: existing 29 plus seven regression groups in `tests/usability.test.mjs`. Includes actual npm compilation into missing nested parents and refusal to overwrite existing output, HTTP CLI reads against a local mock RPC, URL-vs-file diagnostics, source lint findings/exit codes, variable UTF-8 state, project contract/trace validation, real offline Xahau codec and submitter rejection boundaries from an unrelated cwd.
+- Native `variable-state.test.c`: **PASS** with Ubuntu GCC, strict C11 warnings, AddressSanitizer and UndefinedBehaviorSanitizer. C key and URL byte output matches the JS fixture vectors. This validates a native byte codec, not a guarded production Hook or C UTF-8 validation.
+- Skill frontmatter validation: **PASS** via `quick_validate.py` in WSL Ubuntu. Package syntax and local links are checked with `node scripts/validate-package.mjs`.
+- Project submitter: **offline and pre-submit rejection tests only**. No seed read, signing, live network request, transaction submission, live register/resolve or failure-recovery trial was performed. Fee/submit/poll stages still require controlled testnet verification after project adaptation.
+- Source lint is a lexical heuristic with documented false positives/negatives. It does not close every source-audit obligation and is not a replacement for compiler analysis, manual review or production guard checking.
+- The skill-using agent's 1112-instruction/on-chain fee observation is documented as agent-reported evidence, with the fee relationship checked against official documentation. No transaction hash was supplied for independent retrieval.
+
+No versioned release archive is rebuilt by these source changes.
+
 | Check | Result | Evidence/boundary |
 |---|---|---|
 | Skill frontmatter | PASS | Official skill-creator `quick_validate.py`, Ubuntu Python/PyYAML |

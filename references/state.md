@@ -4,6 +4,20 @@ Define a shared schema before writing C or decoding RPC data: namespace, key pre
 
 Hash inputs must have unambiguous boundaries, such as explicit lengths or fixed-width components. Record whether strings use UTF-8, normalized ASCII or another exact representation. A namespace seed is an input to a chosen derivation, not inherently interchangeable with the resulting 32-byte namespace.
 
+## Variable-length state example
+
+`decode-state.mjs` deliberately expects an exact fixed layout. For strings/URLs use a protocol-specific decoder such as [variable-state.mjs](../assets/examples/variable-state.mjs): byte 0 is version `1`, bytes 1..2 are the **UTF-8 byte length** as uint16 BE, followed by exactly 1..200 payload bytes. There is no trailing NUL or padding. Reject unknown versions, truncation, trailing bytes, invalid UTF-8 and oversized values; JavaScript string length is not byte length.
+
+From the skill root, decode a value from the actual snapshot (replace the example bytes):
+
+```sh
+node --input-type=module -e 'import {decodeText} from "./assets/examples/variable-state.mjs"; console.log(decodeText("01001368747470733a2f2f6578616d706c652e636f6d"));'
+```
+
+This decodes `https://example.com` with byte length 19. A resolver must first derive the documented key, find that key in a validated snapshot, then call this decoder on its `HookStateData`; absence and malformed data are different results. The example's key is exactly 32 bytes: ASCII `SLK1`, a 1..28 byte lower-case ASCII label, then zero padding. NULs cannot occur in labels, so labels cannot alias through padding. `labelKey('abc')` is hex `534c4b31616263` followed by 25 zero bytes. This is an illustrative un-hashed key schema, not an existing application's key formula.
+
+[variable-state.h](../assets/examples/variable-state.h) and its [native test](../assets/examples/variable-state.test.c) exercise matching byte encoding, decoding and key derivation. The C codec treats payload as opaque bytes; callers must validate UTF-8 if their protocol requires it. It is a native test template, not production guarded Hook code. Adapt it to the project's schema and add actual state readback; no URL resolution or remote content fetch is performed.
+
 ## Inventory and cleanup
 
 Hashed keys cannot generally be enumerated by recovering their preimages. If transfer/reset/burn must remove all records, maintain a bounded on-chain inventory of dynamic keys. Include custom names as well as predefined keys. Check inventory writes and capacity before accepting a record that otherwise becomes undeletable.

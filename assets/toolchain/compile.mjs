@@ -18,7 +18,8 @@ main(async()=>{
   const entry=path.basename(source);files[entry]=fs.readFileSync(source,'utf8');
   const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
   const inputs=Object.fromEntries(Object.entries(files).sort().map(([name,data])=>[name,sha(data)]));
-  fs.mkdirSync(out);
+  fs.mkdirSync(path.dirname(out),{recursive:true});
+  fs.mkdirSync(out); // Keep leaf creation exclusive, including concurrent builds.
   fs.writeFileSync(path.join(out,'build.json'),JSON.stringify({result:'NOT_BUILT',inputs},null,2)+'\n');
   try{
     const result=await compile({files,entry,opt:'-O2'});

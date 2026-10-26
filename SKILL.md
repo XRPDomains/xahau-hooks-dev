@@ -53,10 +53,11 @@ For a beginner, start with C essentials and the minimal examples in [examples](a
 Node.js 20+; core scripts have no third-party dependencies. The optional compiler and signing/WebSocket references have separate pinned npm locks; install them only for those tasks. Run commands with `--help` after installing a reference's required dependencies.
 
 - `scripts/doctor.mjs`: report local runtimes; Docker daemon check only with `--docker`.
+- `scripts/lint-source.mjs`: lexical C review hints for discarded API results, direct unsigned API conversions and loops without recognized local guards. No preprocessing, type or control-flow proof; no findings is not an audit PASS. See [testing](references/testing.md).
 - `scripts/init-project.mjs`: create a new project source layout from the teaching example and contract template; refuse an existing destination. Does not install tools or create a deployment.
 - `scripts/inspect-artifact.mjs`: WASM structure, exact imports/exports policy, byte budget, SHA-256; optionally execute a supplied guard checker without a shell. Does not implement a replacement guard checker.
 - `scripts/decode-state.mjs`: validate a fixed binary layout and decode bytes/BE unsigned integers. Does not discover unknown state keys or verify project C layouts automatically.
-- `scripts/read-state.mjs`: read-only HTTP JSON-RPC; verify network ID, pin a validated ledger, paginate a namespace, reject repeated markers. Never signs or submits.
+- `scripts/read-state.mjs`: read-only HTTP JSON-RPC via `--config FILE` or `--endpoint URL --network-id ID`; verify network ID, pin a validated ledger, paginate a namespace, reject repeated markers. Never signs or submits.
 - `scripts/summarize-tx.mjs`: summarize a saved `tx` response with validated status and HookExecutions. Does not infer completion of emitted workflows.
 - `scripts/hookon.mjs`: calculate masks with the active-high SetHook exception; validate directional field combinations for HookOnV2_1.
 - `scripts/setup-guard.mjs`: download/checksum pinned checker sources, then build using the existing C++ compiler or explicit WSL distribution.
@@ -65,6 +66,8 @@ Node.js 20+; core scripts have no third-party dependencies. The optional compile
 For beginner builds use `assets/toolchain/compile.mjs` and [setup](references/toolchain-setup.md). Optional `assets/examples/deploy/` provides a restricted testnet signer and WebSocket state reader, not a project SDK. Its signing path refuses mainnet, existing-hook replacement, deletion flags and unrelated writes; it needs explicit submit authorization, fee cap and new journal. Never silently expand it to deploy an existing multi-hook application. Core read-only tools may read an explicitly configured mainnet; local doctor has no RPC target.
 
 Policy/layout examples are under [assets](assets/README.md). Require explicit project-specific values; the supplied artifact policy is only for the minimal pass-through example.
+
+For application writes beyond the teaching setting, adapt the separate [project Invoke submitter](references/deployment.md#project-submitter-template). For strings/URLs, use the [variable-length state example](references/state.md#variable-length-state-example) and native round-trip template. These examples need project protocol checks and do not certify application correctness.
 
 ## Evidence and completion
 

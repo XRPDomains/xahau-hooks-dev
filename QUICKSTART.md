@@ -96,6 +96,18 @@ node -e "const fs=require('node:fs');const s=JSON.parse(fs.readFileSync('build/s
 node scripts/decode-state.mjs --layout assets/state-layout.example.json --hex "$(cat build/value.hex)"
 ```
 
-Expected bytes: `01000000000000002A`; expected decoded fields: `version: 1`, `value: "42"`. Verify these are the actual readback, not just expected constants. The snapshot includes the pinned validated ledger hash. An HTTP endpoint can instead use the dependency-free `scripts/read-state.mjs`; it cannot consume a `wss://` URL.
+Expected bytes: `01000000000000002A`; expected decoded fields: `version: 1`, `value: "42"`. Verify these are the actual readback, not just expected constants. The snapshot includes the pinned validated ledger hash.
+
+For HTTP, the dependency-free reader accepts a URL with an explicit network identity:
+
+```sh
+node scripts/read-state.mjs --endpoint https://xahau-test.net --network-id 21338 --account "$HOOK_ACCOUNT" --namespace "$HOOK_NAMESPACE" --out build/state-http.json
+```
+
+Alternatively create `build/rpc.json` containing `{"endpoint":"https://xahau-test.net","networkId":21338}` and pass `--config build/rpc.json`. **`--config` is a JSON file path, not a URL.** The HTTP reader cannot consume `wss://`; use the WebSocket reader above for that transport. Endpoint availability must be checked against your selected provider.
+
+The installed `xahau` dependency belongs to `assets/examples/deploy`. Running a bundled `.mjs` by path works from any cwd (use absolute script/config paths outside the root). For inline imports such as `node -e 'import("xahau")'`, first `cd assets/examples/deploy`. For your own project, install the dependency there; copying one script also requires updating its relative helper imports. See [module resolution](assets/examples/deploy/README.md#module-resolution).
+
+For a custom application operation after install, start with the separate [project submitter template](references/deployment.md#project-submitter-template). For strings/URLs see [variable-length state](references/state.md#variable-length-state-example). Neither uses the owner-setting protocol automatically.
 
 Keep the journals and hashes as evidence. For cleanup see [deliberate testnet removal/reset](references/deployment.md#deliberate-testnet-removal-and-reset); never reset state as an incidental redeploy step. For failures start with [the first-run error table](references/first-run-errors.md).

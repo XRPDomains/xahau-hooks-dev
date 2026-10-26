@@ -20,6 +20,12 @@ The optional signer follows this quote flow, with no fixed fee default. It does 
 
 Read [Hook fee guidance](https://xahau.network/docs/hooks/concepts/hook-fees/) and the target node's current API. Historical per-byte rates are useful context, not a substitute for the live quote.
 
+## Guard budget has a fee cost
+
+The [official Hook fee model](https://xahau.network/docs/hooks/concepts/hook-fees/) prices execution at one drop per worst-case WASM instruction. The [guard explanation](https://xahau.network/docs/hooks/concepts/loops-and-guarding/) connects bounded loops to that worst-case count. Under that model, a checker count of **1112 instructions corresponds to an execution component of 1112 drops = 0.001112 XAH**. This matches a skill-using agent's reported testnet run; this package has not independently retrieved that run's transaction evidence.
+
+This is the checker-derived instruction count, not the literal `maxiter` supplied to one `_g` call. It is also not the total transaction Fee: base costs, other strong Hooks, callbacks/creation and target rules can change the quote. Record the node version, amendments, HookDefinition fee and transaction-specific `fee` response. Reducing worst-case work can reduce execution cost; arbitrarily increasing guard limits can increase fees as well as conceal an incorrect bound.
+
 ## Mainnet policy
 
 The beginner signing reference refuses every network except 21338, with no mainnet override. Advanced mainnet deployment is a separate reviewed project workflow. `doctor` is local diagnostics and has no network to block. Read-only state tools may inspect mainnet when the explicit NetworkID matches; blocking those reads would not protect funds and would impede auditing.

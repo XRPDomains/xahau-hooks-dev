@@ -16,3 +16,13 @@ On timeout, the journal may remain `SIGNED_BEFORE_SUBMIT` even though submission
 `read-state-websocket.mjs` is read-only. It uses the same identity checking and pinned-ledger pagination as the dependency-free HTTP reader. It permits explicitly configured mainnet reads. Neither it nor `doctor` needs a signer.
 
 These examples are reviewed and offline-tested, but this release did not submit transactions. Verify the target node/API and run a controlled testnet trial before using a signing example operationally.
+
+## Module resolution
+
+ES modules resolve `import 'xahau'` relative to the importing script, not the terminal cwd. Bundled scripts work from other directories when script/config paths are correct. `node -e 'import("xahau")'` resolves from cwd instead: run that inline probe inside `assets/examples/deploy` after installing its lock. For a project-owned script install `xahau` in that project. Moving a reference script alone breaks its relative imports to the skill's helpers; update those imports or retain the folder structure.
+
+## Project operation template
+
+`submit-project.mjs` is a separate Invoke template, with its protocol checks in `project-contract.mjs`. It demonstrates a sample `op=register`, ASCII `name`, UTF-8 HTTP(S) URL `value`; those fields are not a universal registration protocol. There is no corresponding deployable register Hook in this package. Adapt the validator to your reviewed Hook, including authorization and result semantics, before signing. See [project submitter instructions](../../../references/deployment.md#project-submitter-template).
+
+The template checks expected Destination and installed HookHash, refuses other transaction fields, and retains testnet identity checks, explicit fee cap, hash journal and one submission. Validation requires successful HookExecution matching both account and hash. State readback and any emitted workflow remain project postconditions. Use a separate project workflow for Payment or asset operations; do not turn this validator into a permissive transaction pass-through.

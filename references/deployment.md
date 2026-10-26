@@ -24,6 +24,23 @@ Report source revision, toolchain/checker identity, artifact digests/sizes, netw
 
 An optional [testnet reference](../assets/examples/deploy/README.md) now demonstrates first-install SetHook and the owner-setting example's self-Invoke. It is deliberately not a universal deployment client: no chain replacement, migration, arbitrary bootstrap or mainnet. Review it before use and follow [quickstart](../QUICKSTART.md). Existing applications still need a workflow appropriate to their full chain and state lifecycle.
 
+## Project submitter template
+
+Installation does not define an application's input protocol. Keep the restricted `submit-testnet.mjs` for its teaching setting and use [submit-project.mjs](../assets/examples/deploy/submit-project.mjs) as a separate starting point. Review [project-contract.mjs](../assets/examples/deploy/project-contract.mjs) against your C parser first. Its illustrative contract is a testnet Invoke to an explicit Destination with exactly three UTF-8 parameters: `op=register`, `name` (1..28 lower-case ASCII letters/digits/hyphens), and `value` (HTTP(S) URL, 1..200 bytes). It does not implement or deploy that Hook, define ownership, or claim that your project's register uses these fields.
+
+To build an unsigned sample in the skill root, set public `CALLER_ACCOUNT` and `HOOK_ACCOUNT` shell variables and run:
+
+```sh
+node --input-type=module -e 'import fs from "node:fs"; const tx={TransactionType:"Invoke",Account:process.env.CALLER_ACCOUNT,Destination:process.env.HOOK_ACCOUNT,NetworkID:21338,HookParameters:Object.entries({op:"register",name:"abc",value:"https://example.com"}).map(([k,v])=>({HookParameter:{HookParameterName:Buffer.from(k).toString("hex"),HookParameterValue:Buffer.from(v).toString("hex")}}))}; fs.writeFileSync("build/register.unsigned.json",JSON.stringify(tx,null,2),{flag:"wx"});'
+node assets/examples/deploy/submit-project.mjs --config build/network.json --tx build/register.unsigned.json --expected-hook-account "$HOOK_ACCOUNT" --expected-hook-hash "$HOOK_HASH"
+```
+
+The second command only reviews offline. `build/network.json` needs `networkId:21338` and `websocket` for submission. When a task authorizes the adapted operation, add `--submit --max-fee-drops "$MAX_FEE_DROPS" --journal build/register-journal.json`; use the same session-only seed mechanism as [quickstart](../QUICKSTART.md). No submission was performed to validate this template.
+
+Keep the contract validator strict: transaction type, caller/destination, amounts if applicable, exact parameter names/count/length/encoding and operation authorization. Keep configured and observed NetworkID checks, signer matching, explicit fee ceiling, bounded expiry, journal creation with `wx` before submission and exactly one submit call. Never widen the existing owner-setting signer to accept every Invoke.
+
+After validation, assert engine success and expected HookAccount/HookHash/return code. The template demonstrates code zero; adapt that expectation to your protocol. Then pin a validated state read and assert your key/value or resolver result; a successful trace can still be a no-op. For emitted operations follow child transactions and completion state separately. On unknown outcome recover using the saved hash; a new journal does not authorize replay. Project templates need controlled testnet verification after adaptation.
+
 ## Deliberate testnet removal and reset
 
 Cleanup is a separate authorized operation. Snapshot the installation and all affected namespaces first; use a disposable testnet account and inspect the exact slot being changed. The beginner signer refuses these operations, so the JSON below is a review template for a project-specific workflow, not a command it will execute.

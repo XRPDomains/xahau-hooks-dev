@@ -150,6 +150,7 @@ Requires Node.js **20+**. Core scripts have no third-party npm dependencies. The
 
 ```sh
 node scripts/doctor.mjs
+node scripts/lint-source.mjs --source /path/to/hook.c
 node scripts/doctor.mjs --docker
 node scripts/doctor.mjs --docker --image xahau-hooks-dev-toolchain:1.1
 node scripts/hookon.mjs --types Payment,Invoke
@@ -159,14 +160,16 @@ node scripts/inspect-artifact.mjs --wasm /path/to/final.wasm --policy /path/to/p
 node scripts/decode-state.mjs --layout assets/state-layout.example.json --hex 01000000000000002A
 node scripts/read-state.mjs --config /path/to/network.json --account rAddress --namespace HEX64 --out snapshot.json
 node scripts/summarize-tx.mjs --file /path/to/tx-response.json
-node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs
+node --test tests/tools.test.mjs tests/beginner-tools.test.mjs tests/optional-examples.test.mjs tests/usability.test.mjs
 node scripts/validate-package.mjs
 ```
 
 - Artifact inspection without a guard checker reports **NOT_RUN** for the guard stage. A structural PASS is not a deployment PASS. Without a policy it reports observations and exits 2.
+- Source lint emits heuristic review findings with line numbers; it does not preprocess C or prove return checking, memory safety or guard correctness. `NO_FINDINGS` is not an audit PASS. See [testing](references/testing.md).
 - Project initialization creates only a new source/documentation layout. Its parent must exist; an existing destination is refused. It does not install a toolchain, initialize Git or touch a network.
 - The sample artifact policy accepts only the minimal pass-through example. Derive other policies from reviewed source and the target API; do not expand the policy just to silence an unknown import/export.
 - `read-state` requires an explicit **HTTP(S)** JSON-RPC endpoint and expected network ID. The optional `assets/examples/deploy/read-state-websocket.mjs` supports WS(S) using the locked Xahau library. Both pin validated reads and check network identity; neither signs or subscribes. Use the appropriate transport rather than passing a WebSocket URL to the HTTP reader.
+- `read-state --config` expects a JSON file with `endpoint` and `networkId`; alternatively use `--endpoint URL --network-id ID`. For custom application writes see the [project submitter template](references/deployment.md#project-submitter-template); for strings/URLs see [variable-length state](references/state.md#variable-length-state-example).
 - `summarize-tx` accepts a saved JSON `tx` response. `tesSUCCESS` alone does not prove the hook ran or that an emitted workflow completed.
 - Commands emit JSON, errors to stderr, and nonzero exit codes on failure. The optional testnet submission reference requires `--submit`, a matching signer, explicit fee cap and new journal; no helper automatically resubmits a transaction. Network writes require authorization for the current task.
 
