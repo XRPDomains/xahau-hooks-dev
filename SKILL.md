@@ -9,6 +9,12 @@ metadata:
 
 Work within the requested project and operation. Inspect its instructions, authoritative protocol, source, tests, build pipeline, and deployment evidence first. Preserve the user's authorized scope: using this skill does not authorize a network deployment, signing, source rewrite, or external publication.
 
+## Agents in sandboxed environments
+
+Cowork, Claude Code and other agent hosts may run in containers/VMs with an outbound allowlist: npm/GitHub can work while the intended RPC or faucet (for example `xahau-test.net`) is unreachable. Check the actual host restrictions and bounded connection result; do not spend repeated turns retrying a denied endpoint or label it a Hook defect. With available local dependencies, continue lint/source review, tests, production WASM build/guard and unsigned transaction/contract preparation. If downloads are also blocked, use trusted existing tools with recorded provenance or mark the missing stage NOT_RUN.
+
+For live steps, hand off the exact artifact, hashes, inspection evidence, public network/account configuration, reviewed project contract and unsigned transactions to an authorized machine with node access and a funded disposable wallet. Keep seeds/private caches on the signing machine. “One command” covers configured local build/guard/review; live deploy additionally requires connectivity, funding, project assertions and submission authorization. Follow [sandbox and connected-machine handoff](references/agent-workflow.md#agents-in-sandboxed-environments); report network stages BLOCKED/NOT_RUN until actual validated evidence is returned.
+
 ## Establish the target
 
 Record network identity, node/API capabilities, enabled amendments, headers, compiler/optimizer/cleaner versions, validator revision, and final artifact hash. Treat RPC URLs and protocol limits as configuration, not universal constants. Read [compatibility and sources](references/compatibility.md) when selecting tools or resolving conflicting documentation.
