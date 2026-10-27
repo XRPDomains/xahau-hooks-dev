@@ -1,8 +1,26 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or another agent that can read local Markdown and run the required tools. Version **1.6.0**, adding optional explorer ABI export and pinned decoder checks to the offline tooling and emitted-transaction examples.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or **Grok/another agent with local-file and terminal access**. Version **1.6.0**, adding optional explorer ABI export and pinned decoder checks to the offline tooling and emitted-transaction examples.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
+
+## Quick start for Grok and other file-based agents
+
+Clone/extract the complete folder into a readable location; native skill discovery is optional. Start with this direct-file prompt (replace both paths):
+
+```text
+Read /path/to/xahau-hooks-dev/SKILL.md and follow it.
+Task: review /path/to/project/hook.c for pointer/length safety and guard budget.
+Only load the references needed for this review. Do not edit, sign or deploy.
+Use source-only mode if the compiler/checker is unavailable.
+Report findings with file/line, trigger, evidence and unverified stages.
+```
+
+With Node 20+, the first terminal command can be `node scripts/doctor.mjs --source-only` from the skill root. It requires no npm install, native compiler, Docker or WSL and spawns no tool probes. For permitted lint/scaffold/layout/unsigned work, follow [source-only mode](references/environment-setup.md#source-only-mode-no-compiler-required). Without Node, source/protocol review still works; executable checks remain NOT_RUN. A chat-only Grok session cannot execute these tools without host-provided file/terminal access.
+
+For compiler-free WASM inspection and unsigned first-install practice, use the [prebuilt minimal Hook](assets/examples/prebuilt/README.md), with a recorded producer guard PASS and source/build provenance. It verifies only that bundled pass-through example, not a modified project.
+
+Prefer one relevant reference initially: [C essentials](references/c-essentials.md) for pointer/length review; [State](references/state.md) for binary layouts; [Environment setup](references/environment-setup.md) for missing tools. Expand only when a finding or next stage needs it. Example trigger phrases: “review this Xahau hook.c”, “check Hook guards”, “decode HookState”, “prepare an unsigned SetHook”. Agent lifecycle hooks and a general wallet adapter are different tasks.
 
 **New to Hooks? Start with [QUICKSTART.md](QUICKSTART.md)**: install the optional compiler, build and guard-check a small hook, prepare a testnet install, explicitly sign/submit, write a setting and read its state back. Optional examples are restricted to a fresh testnet installation; they never automatically deploy an existing project.
 
@@ -25,7 +43,7 @@ Clone this repository, download its source, or extract a release archive. Instal
 | Claude Code | `.claude/skills/xahau-hooks-dev/` | `~/.claude/skills/xahau-hooks-dev/` | `/xahau-hooks-dev` |
 | Cursor | `.cursor/skills/xahau-hooks-dev/` | `~/.cursor/skills/xahau-hooks-dev/` | Type `/` in Agent chat and select `xahau-hooks-dev` |
 | Codex | `.agents/skills/xahau-hooks-dev/` | `~/.agents/skills/xahau-hooks-dev/` | `$xahau-hooks-dev` |
-| Other agents | A readable local directory | A readable local directory | Use the direct-file prompt below |
+| Grok / other file-and-terminal agents | Clone/extract into a readable directory | No special discovery path assumed | Use the direct-file prompt above |
 
 Choose one installation per agent/scope to avoid conflicting copies. Some existing Codex installations also use `~/.codex/skills/`; keep a working installation there if your host discovers it. Do not assume one agent reads another agent's directories.
 
@@ -61,15 +79,7 @@ The skill is portable: it contains no project addresses, seeds, RPC presets, pri
 
 `SKILL.md` is the shared entrypoint: its name and description help compatible hosts select the skill, and its body routes the agent to relevant references. `agents/openai.yaml` is optional Codex-specific metadata; other hosts do not need it to follow the shared instructions. Discovery and permission behavior remain controlled by each host.
 
-Use your agent's invocation from the table, followed by the task. The task prompts below deliberately avoid host-specific command syntax. For an agent without native skill discovery, start with this direct-file prompt:
-
-```text
-Read /path/to/xahau-hooks-dev/SKILL.md and follow it for the task below.
-Only load the references relevant to this task.
-Project: /path/to/project
-Task: ...
-Permitted changes and network actions: ...
-```
+Use your agent's invocation from the table, followed by the task. The task prompts below deliberately avoid host-specific command syntax. Without native skill discovery, use the [direct-file prompt above](#quick-start-for-grok-and-other-file-based-agents), specifying your project and permitted actions.
 
 Replace the paths and task fields before sending. The agent must be able to read the skill and project directories. Running the bundled tools requires a terminal with Node.js 20+; compiling and deploying Hooks requires the project's separate toolchain and network access. A chat-only agent can discuss the instructions but cannot verify local builds or submit transactions without those capabilities.
 

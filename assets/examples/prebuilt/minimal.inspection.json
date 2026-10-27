@@ -1,0 +1,22 @@
+{
+  "bytes": 171,
+  "sha256": "8edda57b05db46e794d11d0843e87551f5dfe13f00715baf3bb0c6463beb3b17",
+  "wasmValid": true,
+  "imports": [
+    "env._g:function",
+    "env.accept:function"
+  ],
+  "exports": [
+    "hook:function"
+  ],
+  "structure": "PASS",
+  "guard": {
+    "result": "PASS",
+    "checker": "build/guard/guard_checker",
+    "exitCode": 0,
+    "log": "Read 171 bytes from `/mnt/c/ViberCode/xahau-hooks-dev/build/minimal-prebuilt-check/hook.cleaned.wasm` successfully...\nHookSet(50)[]: GuardCheck Total worse-case execution count: 30\n\nHook validation successful!\n",
+    "sha256": "f5eb70c9523df5108205a80aa850b07abfcf0c9c2d45c1f07af1ed139b124e17",
+    "wsl": "Ubuntu"
+  },
+  "failures": []
+}

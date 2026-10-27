@@ -39,7 +39,19 @@ export function readiness({nodeSupported,platform,tools,dependencies,wsl='NOT_RU
       missing:[...(!nodeSupported?['Node >=20']:[]),...dependencies.deploy.filter(p=>!p.available).map(p=>`${p.name}@${p.expected}`)],
       next:'npm ci --ignore-scripts --no-audit --no-fund --prefix assets/examples/deploy'}
   };
-  return {checks,guardFile:guardFile??'NOT_CONFIGURED',
+  return {mode:'FULL_DIAGNOSTICS',summary:{source_tools:checks.sourceTools.available,compile_tools:checks.npmCompile.available,
+      source_status:nodeSupported?'SOURCE_TOOLS_READY':'SOURCE_TOOLS_UNAVAILABLE',compile_status:checks.npmCompile.available?'COMPILE_PREREQUISITES_OBSERVED':'COMPILE_PREREQUISITES_MISSING'},checks,guardFile:guardFile??'NOT_CONFIGURED',
     evidence:'LOCAL_PREREQUISITES_ONLY: installed metadata is not a working compiler, complete dependency-tree validation, artifact validation or deployment authorization',
     fallback:'Missing build/checker does not block source review, protocol design or unsigned planning. Keep unavailable stages NOT_RUN; see references/environment-setup.md'};
+}
+
+// No subprocesses, dependency reads or native probes in source-only mode.
+export function sourceReadiness(nodeSupported){
+  return {mode:'SOURCE_ONLY',summary:{source_tools:nodeSupported,compile_tools:null,
+      source_status:nodeSupported?'SOURCE_TOOLS_READY':'SOURCE_TOOLS_UNAVAILABLE',compile_status:'NOT_CHECKED'},
+    checks:{sourceTools:{available:nodeSupported,missing:nodeSupported?[]:['Node >=20'],next:'node scripts/lint-source.mjs --source hook.c'},
+      npmCompile:{available:null,status:'NOT_CHECKED'},checkerBuild:{available:null,status:'NOT_CHECKED'},
+      nativeTests:{available:null,status:'NOT_CHECKED'},websocketExamples:{available:null,status:'NOT_CHECKED'}},
+    evidence:'SOURCE_PREREQUISITES_ONLY: Node availability is not source correctness, compile/guard execution or deployment authorization',
+    fallback:'Review, lint, scaffold, state design, HookOn and unsigned planning remain useful; compile/guard NOT_RUN until their tools execute'};
 }

@@ -9,6 +9,12 @@ metadata:
 
 Work within the requested project and operation. Inspect its instructions, authoritative protocol, source, tests, build pipeline, and deployment evidence first. Preserve the user's authorized scope: using this skill does not authorize a network deployment, signing, source rewrite, or external publication.
 
+## Quick path for agents without native skill discovery
+
+For Grok or another file/terminal-enabled host, read this file directly; no special installation directory is required. Load one task reference first, then expand as needed: C essentials for pointer/length review, State for codecs, Environment setup for missing tools. A useful request is: `Read SKILL.md. Review hook.c for pointer/length safety and guard budget. Do not deploy. Report findings with evidence.`
+
+Start with `node scripts/doctor.mjs --source-only`. Local-only helpers include `lint-source.mjs`, `hookon.mjs`, fixed-layout decoding and schema codecs. `init-project.mjs` creates a fresh scaffold when requested; unsigned preparation writes drafts without signing or RPC. Source review and planning do not require a compiler. See [source-only commands and readiness](references/environment-setup.md#source-only-mode-no-compiler-required), or the [prebuilt minimal sample](assets/examples/prebuilt/README.md) for compiler-free artifact inspection. Keep compile/guard NOT_RUN for the user's source until actually executed; sample producer evidence does not verify modified project code.
+
 ## Agents in sandboxed environments
 
 Cowork, Claude Code and other agent hosts may run in containers/VMs with an outbound allowlist: npm/GitHub can work while the intended RPC or faucet (for example `xahau-test.net`) is unreachable. Check the actual host restrictions and bounded connection result; do not spend repeated turns retrying a denied endpoint or label it a Hook defect. With available local dependencies, continue lint/source review, tests, production WASM build/guard and unsigned transaction/contract preparation. If downloads are also blocked, use trusted existing tools with recorded provenance or mark the missing stage NOT_RUN.
@@ -65,7 +71,7 @@ For a beginner, start with C essentials and the minimal examples in [examples](a
 
 Node.js 20+; core scripts have no third-party dependencies. The optional compiler and signing/WebSocket references have separate pinned npm locks; install them only for those tasks. Run commands with `--help` after installing a reference's required dependencies.
 
-- `scripts/doctor.mjs`: report npm, local compilers, exact optional dependency metadata and per-task readiness; WSL probes only with `--wsl DISTRO`, Docker daemon only with `--docker`. A report is not build/validation evidence. Follow [environment setup](references/environment-setup.md) for missing tools.
+- `scripts/doctor.mjs`: `--source-only` reports Node-based source readiness without subprocesses or dependency/native probes; unexamined compile tools are null/NOT_CHECKED. Full mode reports npm, local compilers and optional dependency metadata; WSL probes only with `--wsl DISTRO`, Docker daemon only with `--docker`. Prerequisite readiness is not build/validation evidence. Follow [environment setup](references/environment-setup.md).
 - `scripts/lint-source.mjs`: lexical C review hints for discarded API results, direct unsigned API conversions and loops without recognized local guards. No preprocessing, type or control-flow proof; no findings is not an audit PASS. See [testing](references/testing.md).
 - `scripts/mock-hook.mjs`: worker-isolated offline WASM fixtures with bounded memory, timeout, state overlay, guards and fault injection. Unsupported imports fail; prepare/emit are explicit fixture adapters, callback tests do not simulate native weak semantics.
 - `scripts/generate-client.mjs`: package-specific schema v1 -> standalone byte codec and unsigned Invoke builder. No RPC/signing; independently verify schema against C, version and production artifact hash. This narrow helper does not extend scope to application SDK development.

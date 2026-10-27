@@ -2,6 +2,29 @@
 
 Use this before the quickstart when the agent has source access but the environment is incomplete. Prefer an existing project toolchain over installing another one. This workflow prepares local tools; it does not authorize a ledger write.
 
+## Source-only mode: no compiler required
+
+This is a first-class path for Grok or any agent with source access in a constrained host. With Node 20+, run `node scripts/doctor.mjs --source-only [--out NEW_REPORT.json]` (omit the brackets and replace the optional path). It spawns no subprocesses, checks no optional package manifests, and does not start WSL/Docker or access a network. `summary.source_status` is `SOURCE_TOOLS_READY` when the required Node is available. `compile_tools:null` and `compile_status:NOT_CHECKED` mean the compiler was not examined, not that it is missing. In full doctor mode, `compile_tools` is a boolean based on observed direct dependency/header metadata; `COMPILE_PREREQUISITES_OBSERVED` is not a claim that compilation executed successfully. No agent-specific compatibility score is inferred.
+
+Local-only commands, from the skill root and within the requested task:
+
+| Command | Result / boundary |
+|---|---|
+| `node scripts/doctor.mjs --source-only` | Node/source prerequisite report; no native tool probes |
+| `node scripts/lint-source.mjs --source /path/to/hook.c` | Lexical hints; no source edits or complete audit claim |
+| `node scripts/hookon.mjs --types Invoke` | Activation-mask calculation; no RPC |
+| `node scripts/init-project.mjs --out /absolute/NEW_PROJECT --name my-hook` | Creates source scaffold only when requested; parent must exist |
+| `node scripts/decode-state.mjs --layout layout.json --hex HEX` | Fixed-layout decode; schema correctness needs independent vectors |
+| `node scripts/prepare-setting.mjs --account PUBLIC_ADDRESS --network-id 21338 --value-hex 000000000000002A --out NEW_UNSIGNED.json` | Teaching-example unsigned fields; no signing/submission |
+
+Replace placeholders; use `--help` for exact contracts. Architecture/authorization review, key derivation, state layout, guard-bound reasoning and unsigned planning remain useful without compilation. Report guard budgets as source reasoning, not measured WASM counts. Without a verified artifact/evidence pair, plan SetHook fields but do not fabricate validation evidence to run its preparation helper. The [prebuilt sample](../assets/examples/prebuilt/README.md) can exercise inspection/unsigned preparation for the bundled pass-through source only.
+
+If Node is absent, read source and design the protocol manually; all executable checks remain NOT_RUN. No mode grants deployment authorization. [Sandbox handoff](agent-workflow.md#agents-in-sandboxed-environments) explains how to transfer source/contracts/drafts to a suitable build/signing machine.
+
+## If npm ci fails or takes too long
+
+Capture the failing stage, error/timeout and available logs; a package download or sandbox I/O failure is not proof of a C defect. Avoid repeated concurrent installs. Preserve dependency locks, checksums and partial diagnostic evidence. Continue source-only lint/review/scaffold/layout/HookOn/unsigned planning with available tools; mark project compile/guard NOT_RUN, or FAIL if they actually ran and failed. Use a trusted compatible cache or hand the exact source/locks to a build-capable machine. Do not switch to arbitrary package versions/mirrors or silently certify source from a prebuilt example. Resume the selected build route only after its concrete blocker is understood.
+
 ## Bootstrap before Node exists
 
 `doctor.mjs` cannot run without Node. First inspect the shell and OS: PowerShell `Get-Command node,npm -ErrorAction SilentlyContinue`, or POSIX `command -v node` and `command -v npm`. Check a configured bundled runtime or existing version manager before downloading anything. Use the [official Node distribution](https://nodejs.org/en/download), matching the OS/architecture, with npm. The package requires Node >=20; prefer a currently supported LTS. Verify published checksums/signatures for a downloaded portable runtime. An agent may use a user-local runtime when its environment permits downloads; do not replace the user's global Node or change system PATH just to run this skill. Invoke the chosen executable explicitly if necessary. Recheck `node --version` and `npm --version` in that same execution environment.

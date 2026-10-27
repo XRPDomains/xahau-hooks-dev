@@ -2,6 +2,13 @@
 
 Date: 2026-10-27. These are package verification results, not a live deployment certification. Historical release evidence is retained below with its original scope.
 
+## Unreleased direct-file/source-only follow-up — 2026-10-27
+
+- Added early Grok/file-and-terminal prompts, concise trigger/load guidance and a source-only fallback for failed/slow dependency setup. User-relayed Grok feedback reports real use, but no versioned session transcript/logs were supplied; independent formal Grok evaluation remains **NOT_RUN**. No agent-specific “friendly” certification is inferred.
+- `doctor --source-only` reports SOURCE_TOOLS_READY for the supported Node runtime without subprocesses or optional dependency/native probes. An isolated package copy containing only the three doctor/helper modules, no package manifests/dependencies and an empty PATH passed its CLI test. Compiler status is null/NOT_CHECKED there; full doctor reports observed/missing prerequisites separately from actual build execution.
+- Rebuilt original minimal.c with the locked compiler, obtaining the same 171-byte SHA-256 `8edda57b05db46e794d11d0843e87551f5dfe13f00715baf3bb0c6463beb3b17`; the pinned production checker through Ubuntu WSL passed at 30 worst-case instructions. The [prebuilt sample](assets/examples/prebuilt/README.md) includes exact bytes, source/header/lock/compiler provenance and an unmodified producer inspection. It is only the pass-through example; consumer guard execution, node acceptance and deployment remain **NOT_RUN**.
+- **86/86 Node tests PASS, zero skips**, including the optional pinned explorer decoder. Four added groups cover source-only readiness/isolation/flag conflicts, artifact/provenance/lock integrity and compiler-free inspection/unsigned preparation with stale evidence rejected. A structure-only consumer inspection reports guard NOT_RUN rather than claiming the producer's check as a new local run. Package syntax/local links, skill frontmatter and whitespace checks passed. Metadata remains 1.6.0 pending release of this follow-up.
+
 ## 1.6.0 optional explorer ABI integration — 2026-10-27
 
 - Reviewed XRPLWin's ABI skill at `9e0eed4830535ed6b288820fb6aa116e0fd9844e` and its MIT license. Added original optional schema-export/check orchestration, with the upstream parser/validator kept in a separate checkout and hash-pinned before import. Core dependencies and submission behavior are unchanged; package version is 1.6.0.

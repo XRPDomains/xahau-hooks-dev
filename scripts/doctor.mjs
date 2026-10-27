@@ -3,10 +3,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {args, main, print} from './lib.mjs';
-import {probe,dependencyReport,npmCommand,readiness} from './doctor-lib.mjs';
+import {probe,dependencyReport,npmCommand,readiness,sourceReadiness} from './doctor-lib.mjs';
 main(() => {
-  const a = args(process.argv.slice(2), ['--image','--wsl','--guard','--out'], ['--docker', '--help']);
-  if (a['--help']) return print({usage:'node doctor.mjs [--docker] [--image explicit-image-reference] [--wsl DISTRO] [--guard FILE] [--out report.json]', note:'Local diagnostics only; never installs, pulls, signs or uses RPC. Optional --wsl lists distros and probes g++/cc in that explicitly selected distro. --guard checks file presence only; it does not execute the checker. Exit 0 means report generated, not all capabilities ready.'});
+  const a = args(process.argv.slice(2), ['--image','--wsl','--guard','--out'], ['--source-only','--docker', '--help']);
+  if (a['--help']) return print({usage:'node doctor.mjs --source-only [--out report.json] OR node doctor.mjs [--docker] [--image IMAGE] [--wsl DISTRO] [--guard FILE] [--out report.json]', note:'Local diagnostics only; never installs, pulls, signs or uses RPC. --source-only skips every subprocess/native/dependency probe; compile_tools is null (unexamined). Full mode reports compiler prerequisite metadata, not a proven working compiler. Optional --wsl lists distros and probes g++/cc in that explicitly selected distro. --guard checks file presence only. Exit 0 means report generated, not all capabilities ready.'});
+  if(a['--source-only']){
+    if(['--docker','--image','--wsl','--guard'].some(key=>a[key]!==undefined))throw new Error('--source-only cannot be combined with tool/native probe options');
+    const nodeSupported=Number(process.versions.node.split('.')[0])>=20;
+    print({node:process.version,nodeSupported,platform:process.platform,architecture:process.arch,tools:'NOT_RUN',dependencies:'NOT_RUN',...sourceReadiness(nodeSupported)},a['--out']);
+    if(!nodeSupported)process.exitCode=1;
+    return;
+  }
   if(a['--wsl']&&process.platform!=='win32')throw new Error('--wsl is only supported on Windows');
   if(a['--wsl']?.startsWith('-'))throw new Error('Invalid WSL distribution');
   const tools = {};

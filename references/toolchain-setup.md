@@ -1,5 +1,7 @@
 # Toolchain setup
 
+If installation fails or is too slow in a sandbox, use [source-only mode](environment-setup.md#source-only-mode-no-compiler-required) rather than blocking all useful work. The [prebuilt minimal sample](../assets/examples/prebuilt/README.md) supports compiler-free inspection/unsigned preparation, with producer guard evidence and exact provenance. It does not validate a changed project source or eliminate the need to compare checker/node compatibility before deployment.
+
 Use this when a project has C source but no working build. The optional reference path below is now included; no global compiler installation is required for its npm build. It does not replace the target network validator.
 
 For a machine without Node/npm, missing packages, blocked downloads or insufficient system privileges, first follow [environment setup](environment-setup.md). It maps each missing capability to a local route, an install/check command and useful work that can continue. Do not install every native tool reported absent by doctor.

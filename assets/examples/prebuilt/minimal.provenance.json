@@ -1,0 +1,54 @@
+{
+  "scope": "PREBUILT_TEACHING_ARTIFACT",
+  "date": "2026-10-27",
+  "source": {
+    "path": "assets/examples/minimal.c",
+    "sha256": "130a998fc8420a5939bdd99b2d33cccd77127c8fa92c0abc6e60472a381e8b3c"
+  },
+  "artifact": {
+    "file": "minimal.wasm",
+    "bytes": 171,
+    "sha256": "8edda57b05db46e794d11d0843e87551f5dfe13f00715baf3bb0c6463beb3b17"
+  },
+  "build": {
+    "node": "v22.17.0",
+    "compiler": "hooks-compiler@0.2.0",
+    "headers": "@xahau/hooks-cli@3.0.0",
+    "versions": {
+      "clangWasm": "0.3.0",
+      "binaryen": "132.0.0",
+      "hookCleaner": "0.2.2"
+    },
+    "inputs": {
+      "error.h": "df39d53a0960c195b1bf3162b52552047eb3605f0e82f7137248861c4a1313bb",
+      "extern.h": "c750f232767f1e9123ffd9f53f1de888dc0d9d7f5ed9fad3ed95ca38f7ee9321",
+      "hookapi.h": "ce391617562424fded125c1d5626cf81558348686702945b77c4abdc113e3e77",
+      "ls_flags.h": "733bd02a19ee7bef7ea0d74192999142f501e60efe1928656ee699f7ca3a933b",
+      "macro.h": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+      "minimal.c": "130a998fc8420a5939bdd99b2d33cccd77127c8fa92c0abc6e60472a381e8b3c",
+      "safe-bytes.h": "1da1e9b4ba57cb79a051421103cba2d0c52ed7af930092e1f898d0c41c80a449",
+      "sfcodes.h": "2331c554a1e8d7d45fe84808ae0e9c6ad6128580cd24d24804baa61ec7890aeb",
+      "tts.h": "fa048d14026f5fa56a0e114deb0115ce2f37800ebbd221efeb417f74202ebce8",
+      "tx_flags.h": "49f66ba0a77743b36e182f6f7df28454b0893f6bc0ae31b5c7d320b7e99b8538",
+      "variable-state.h": "670f456bbeb1676b95264aa671ec487928c7fa6679682aa98a4ee92241b3bf6c"
+    },
+    "lockSha256": "8ae100fafa4fa93c656412f0d59a0837ee6ba8cd25f27759a26f09113d09926c"
+  },
+  "producerGuard": {
+    "repository": "https://github.com/Xahau/xahaud",
+    "revision": "5c05e107c0211dcedb7adcf73dab1f6012747fe7",
+    "sha256": "f5eb70c9523df5108205a80aa850b07abfcf0c9c2d45c1f07af1ed139b124e17",
+    "result": "PASS",
+    "worstCaseInstructions": 30,
+    "route": "Ubuntu WSL"
+  },
+  "inspection": {
+    "file": "minimal.inspection.json",
+    "sha256": "16121907be67803f2d645438a94697fea034d7ecd6a13893093bdfd78de2afc4",
+    "scope": "Recorded producer validation; diagnostic paths identify the producer build, not consumer paths"
+  },
+  "nodeAcceptance": "NOT_RUN",
+  "deployment": "NOT_RUN",
+  "consumerGuardExecution": "NOT_RUN",
+  "note": "Pass-through example only. Does not write owner-setting state. Rehash/reinspect these bytes; compare checker rules with the intended node before any authorized installation."
+}

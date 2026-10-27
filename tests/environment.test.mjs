@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import {probe,dependencyReport,npmCommand,readiness} from '../scripts/doctor-lib.mjs';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {probe,dependencyReport,npmCommand,readiness,sourceReadiness} from '../scripts/doctor-lib.mjs';
 
 test('doctor distinguishes missing command, bad exit and observed version without a shell',()=>{
   let options;
@@ -35,12 +37,32 @@ test('missing tools retain source/offline work and never imply artifact/deployme
   const dependencies={compiler:[{name:'compiler',expected:'1',available:false}],deploy:[{name:'xahau',expected:'4',available:false}],headersAvailable:false};
   const result=readiness({nodeSupported:true,platform:'win32',tools:{},dependencies});
   assert.equal(result.checks.sourceTools.available,true);assert.equal(result.checks.npmCompile.available,false);
+  assert.equal(result.summary.source_status,'SOURCE_TOOLS_READY');assert.equal(result.summary.compile_status,'COMPILE_PREREQUISITES_MISSING');assert.equal(result.summary.compile_tools,false);
   assert.equal(result.checks.checkerBuild.available,false);assert.equal(result.checks.websocketExamples.available,false);
   assert.match(result.evidence,/not.*deployment/);assert.match(result.fallback,/NOT_RUN/);
   dependencies.compiler[0].available=true;dependencies.deploy[0].available=true;dependencies.headersAvailable=true;
   const withWsl=readiness({nodeSupported:true,platform:'win32',tools:{},dependencies,wsl:{compiler:{available:true},cCompiler:{available:true}},guardFile:{exists:true,execution:'NOT_RUN'}});
   assert.equal(withWsl.checks.npmCompile.available,true);assert.equal(withWsl.checks.checkerBuild.available,true);
+  assert.equal(withWsl.summary.compile_status,'COMPILE_PREREQUISITES_OBSERVED');
   assert.equal(withWsl.guardFile.execution,'NOT_RUN');
   assert.equal(readiness({nodeSupported:false,platform:'linux',tools:{},dependencies}).checks.npmCompile.available,false);
   assert.equal(readiness({nodeSupported:true,platform:'linux',tools:{'g++':{available:true}},dependencies}).checks.checkerBuild.available,true);
+});
+
+test('source-only readiness distinguishes unexamined compile tools from missing prerequisites',()=>{
+  const r=sourceReadiness(true);assert.equal(r.mode,'SOURCE_ONLY');assert.equal(r.summary.source_status,'SOURCE_TOOLS_READY');assert.equal(r.summary.compile_tools,null);assert.equal(r.summary.compile_status,'NOT_CHECKED');assert.equal(r.checks.npmCompile.available,null);
+  assert.equal(sourceReadiness(false).summary.source_status,'SOURCE_TOOLS_UNAVAILABLE');assert.equal(sourceReadiness(false).summary.source_tools,false);
+});
+
+test('source-only CLI works in a tool/dependency-free package copy and refuses native probes',()=>{
+  const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),dir=fs.mkdtempSync(path.join(os.tmpdir(),'xh-source-only-'));
+  try{
+    const scripts=path.join(dir,'scripts');fs.mkdirSync(scripts);
+    for(const f of ['doctor.mjs','doctor-lib.mjs','lib.mjs'])fs.copyFileSync(path.join(root,'scripts',f),path.join(scripts,f));
+    const out=path.join(dir,'report.json');
+    const run=(...args)=>spawnSync(process.execPath,[path.join(scripts,'doctor.mjs'),'--source-only',...args],{encoding:'utf8',timeout:60000,cwd:dir,env:{...process.env,PATH:'',Path:''}});
+    const r=run('--out',out);assert.equal(r.status,0,r.stderr);const report=JSON.parse(r.stdout);assert.equal(report.summary.source_tools,true);assert.equal(report.dependencies,'NOT_RUN');assert.equal(report.tools,'NOT_RUN');assert.deepEqual(report,JSON.parse(fs.readFileSync(out)));
+    assert.equal(run('--out',out).status,1);
+    for(const args of [['--docker'],['--wsl','Ubuntu'],['--guard','unused'],['--image','unused']])assert.match(run(...args).stderr,/cannot be combined/);
+  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
