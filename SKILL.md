@@ -2,7 +2,7 @@
 name: xahau-hooks-dev
 description: Design, write, build, test, review, debug, deploy, and upgrade C/WASM Hooks on Xahau, including direct RPC state reads, transaction-based writes, and optional explorer ABI/manifest preparation. Use for Hook C safety, guards, binary state layouts, emitted transactions, callbacks, and deployment failures. Includes guidance for developers new to C; excludes building application SDKs and indexers.
 metadata:
-  version: "1.6.0"
+  version: "1.6.1"
 ---
 
 # Xahau Hooks development

@@ -20,7 +20,7 @@ parentPort.on('message',async({fixture:f})=>{
     const param=(which,p,cap,k,n)=>write(p,cap,(f[which]??[]).find(item=>bytes(item.name).equals(read(k,n)))?.value===undefined?undefined:bytes((f[which]??[]).find(item=>bytes(item.name).equals(read(k,n))).value));
     const key=(p,n)=>{if(n<1||n>32)throw new Error('Mock state key must be 1..32 bytes');return read(p,n).toString('hex').padStart(64,'0');};
     const env={
-      _g:(id,budget)=>{id>>>=0;budget>>>=0;const g=guards.get(id)??{id,budget,visits:0};if(g.budget!==budget||budget<1)throw new Error('Inconsistent guard budget');++g.visits;guards.set(id,g);if(g.visits>budget)throw {terminal:true,outcome:'rollback',code:'fffffffffffffff0',message:'GUARD_VIOLATION'};return 0;},
+      _g:(id,budget)=>{id>>>=0;budget>>>=0;const g=guards.get(id)??{id,budget,visits:0};if(g.budget!==budget||budget<1)throw new Error('Inconsistent guard budget');++g.visits;guards.set(id,g);if(g.visits>budget)throw {terminal:true,outcome:'rollback',code:'fffffffffffffff0',message:'GUARD_VIOLATION'};return 1;},
       accept:(p,n,c)=>terminal('accept',p,n,c),rollback:(p,n,c)=>terminal('rollback',p,n,c),
       hook_account:(p,n)=>write(p,n,f.hookAccount===undefined?undefined:bytes(f.hookAccount,20)),
       otxn_generation:()=>BigInt(f.generation??0),otxn_type:()=>BigInt(f.type??99),otxn_field:(p,n,field)=>write(p,n,fieldObject[field>>>0]),

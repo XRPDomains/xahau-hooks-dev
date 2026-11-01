@@ -17,7 +17,11 @@ function fields(list,parameters=false){
   }
 }
 function encodeField(f,value,delimit){
-  if(f.const!==undefined){if(value!==undefined&&String(value)!==String(f.const))throw new Error('Constant field mismatch: '+f.name);value=f.const;}
+  if(f.const!==undefined){
+    const plain={...f,const:undefined},expected=encodeField(plain,f.const,delimit);
+    if(value!==undefined&&!encodeField(plain,value,delimit).equals(expected))throw new Error('Constant field mismatch: '+f.name);
+    return expected;
+  }
   if(f.type==='string'){
     if(typeof value!=='string')throw new Error('Expected UTF-8 string: '+f.name);
     const b=Buffer.from(value);if(new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(b)!==value||b.length>f.maxBytes||b.length<(f.minBytes??0)||f.noNul&&value.includes('\0'))throw new Error('Invalid/oversized UTF-8 field: '+f.name);
@@ -38,12 +42,12 @@ function encodeFields(list,values){
 function decodeFields(list,hex){
   const b=fromHex(hex);let offset=0;const out={};
   const take=n=>{if(offset+n>b.length)throw new Error('Truncated state');const data=b.subarray(offset,offset+n);offset+=n;return data;};
-  for(const f of list){let value;
+  for(const f of list){let value;const start=offset;
     if(f.type==='string'){const n=take(2).readUInt16BE();if(n>f.maxBytes||n<(f.minBytes??0))throw new Error('Invalid state string length');value=new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(take(n));if(f.noNul&&value.includes('\0'))throw new Error('NUL in state string');}
     else if(f.type==='bytes')value=take(f.bytes).toString('hex').toUpperCase();
     else if(f.type==='account20')value=encodeAccount(take(20));
     else{const data=take({uint8:1,uint32be:4,uint64be:8}[f.type]);let n=0n;for(const byte of data)n=n*256n+BigInt(byte);value=f.type==='uint64be'?String(n):Number(n);}
-    if(f.const!==undefined&&String(value)!==String(f.const))throw new Error('Unknown schema version or constant mismatch');out[f.name]=value;
+    if(f.const!==undefined&&!b.subarray(start,offset).equals(encodeField({...f,const:undefined},f.const,true)))throw new Error('Unknown schema version or constant mismatch');out[f.name]=value;
   }
   if(offset!==b.length)throw new Error('Trailing state bytes');return out;
 }

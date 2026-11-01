@@ -1,6 +1,6 @@
 # Xahau Hooks Development
 
-A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or **Grok/another agent with local-file and terminal access**. Version **1.6.0**, adding optional explorer ABI export and pinned decoder checks to the offline tooling and emitted-transaction examples.
+A reusable Agent Skill for designing, writing, building, reviewing, debugging, and operating C/WASM Hooks on Xahau. Use it with **Claude Code, Cursor, Codex**, or **Grok/another agent with local-file and terminal access**. Version **1.6.1**, fixing native-compatible guard return values in mocks and byte-exact schema constant checks.
 
 It includes direct on-chain reads and transaction-based writes, beginner C guidance, small source examples, diagnostic tools, and evidence templates. It does **not** implement an application SDK, wallet adapter, indexer, or a universal deployment client.
 
